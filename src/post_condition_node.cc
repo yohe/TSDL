@@ -1,4 +1,6 @@
 
+#include <sstream>
+
 #include "executor.h"
 #include "context.h"
 #include "program_node.h"
@@ -59,12 +61,19 @@ void ConditionNode::execute() throw ( ExecuteException )
         throw ExecuteException(mes);
     }
 
-    bool ret = checker->check(_result, _inputParam);
-
-    if(ret == false) { 
-        std::string mes = "condition pass error. ConditionName = " + _conditionCommand + " : condition param = " + _inputParam;
-        throw ExecuteException(mes);
+    try {
+        bool ret = checker->check(_result, _inputParam);
+        if(ret == false) { 
+            std::string mes = "condition pass error. ConditionName = " + _conditionCommand + " : condition param = " + _inputParam;
+            throw ExecuteException(mes);
+        }
+    } catch ( boost::bad_any_cast& e) {
+        std::stringstream ss;
+        ss << "condition check error. [" << e.what() << "]" << std::endl;
+        ss << "                       ConditionName = " << _conditionCommand << " : condition param = " << _inputParam;
+        throw ExecuteException(ss.str());
     }
+
 }
 
 void ConditionNode::setResult(Result* result) {

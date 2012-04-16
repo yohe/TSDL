@@ -1,6 +1,6 @@
 init test
 setup aaaa : cond TypeA bb
 # FizzBuzz lowNumber-highNumber : FizzBuzz starts by lowNumber and end by highNumber;
-execute FizzBuzz 1-9 : cond FizzBuzzCheck Fizz-3 and cond FizzBuzzCheck Buzz-1 and cond FizzBuzzCheck FizzBuzz-0
 execute FizzBuzz 1-9 : cond FizzBuzzCheck Fizz-3 and cond FizzBuzzCheck Buzz-1 and cond FizzBuzzCheck FizzBuzz-1
-teardown aaa : cond TypeB cc
+execute FizzBuzz 1-30 : cond FizzBuzzCheck Fizz-8 and cond FizzBuzzCheck Buzz-4 and cond FizzBuzzCheck FizzBuzz-2
+teardown aaa : cond TypeB cc and cond FizzBuzzCheck aa

@@ -12,7 +12,8 @@ public:
     virtual ~Result() {}
 
     template <class T>
-    const T getResult() const { return boost::any_cast<T>(_result); }
+    const T getResult() const throw ( boost::bad_any_cast )
+    { return boost::any_cast<T>(_result); }
 
     const std::type_info& type() const { return _result.type(); }
 
