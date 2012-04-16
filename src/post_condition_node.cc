@@ -42,7 +42,12 @@ void ConditionNode::parse(Sentence& sentence) throw ( ParseException )
         std::string mes = "ScenarioError (cond) : \"post_condition\" format is \"cond [condition_name] [input_param]\".";
         throw ParseException(mes);
     }
+
     _conditionCommand = sentence.nextToken();
+    if(_conditionCommand == "null") {
+        return;
+    }
+
     //std::cout << "    " << _conditionCommand << std::endl;
     if(!sentence.hasNextToken()) {
         std::string mes = "ScenarioError (cond) : \"post_condition\" format is \"cond [condition_name] [input_param]\".";
@@ -55,6 +60,10 @@ void ConditionNode::parse(Sentence& sentence) throw ( ParseException )
 
 void ConditionNode::execute() throw ( ExecuteException ) 
 {
+    if(_conditionCommand == "null") {
+        return;
+    }
+
     ConditionChecker* checker = _programNode->createConditionChecker(_conditionCommand);
     if(checker == NULL) {
         std::string mes = "ConditionChecker create error. ConditionName = " + _conditionCommand;
@@ -114,7 +123,7 @@ void PostConditionNode::parse(Context& context) throw ( ParseException )
         try {
             cond->parse(condSentence);
         } catch (ParseException& e) {
-
+            throw e;
         }
 
         _conditionList.push_back(cond);
