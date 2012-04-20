@@ -7,6 +7,7 @@
 class ConditionChecker {
 public:
     virtual bool check(Result* result, std::string inputParam) = 0;
+    virtual std::string getError() const = 0;
 };
 
 class ConditionCheckerFactory {

@@ -62,10 +62,10 @@ void ProgramNode::execute() throw ( ExecuteException )
         _initNode->execute();
         _setupNode->execute();
         _executeListNode->execute();
-        _teardownNode->execute();
     } catch (ExecuteException& e) {
         std::cout << e.what() << std::endl;
     }
+    _teardownNode->execute();
 
     return ;
 }

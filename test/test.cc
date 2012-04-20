@@ -129,24 +129,40 @@ public:
             if(ret->fizzCount == countValue) {
                 return true;
             } else {
+                std::stringstream ss;
+                ss << "fizz : expected = [" << countValue << "] but was = [" << ret->fizzCount << "]";
+                _error = ss.str();
                 return false;
             }
         } else if( type == "Buzz") {
             if(ret->buzzCount == countValue) {
                 return true;
             } else {
+                std::stringstream ss;
+                ss << "buzz : expected = [" << countValue << "] but was = [" << ret->buzzCount << "]";
+                _error = ss.str();
                 return false;
             }
         } else if (type == "FizzBuzz") {
             if(ret->fizzbuzzCount == countValue) {
                 return true;
             } else {
+                std::stringstream ss;
+                ss << "fizzbuzz : expected = [" << countValue << "] but was = [" << ret->fizzbuzzCount << "]";
+                _error = ss.str();
                 return false;
             }
         }
 
         return false;
     }
+
+    virtual std::string getError() const {
+        return _error;
+    }
+
+private:
+    std::string _error;
 };
 class TypeAChecker : public ConditionChecker {
 public:
@@ -154,12 +170,20 @@ public:
         std::cout << "TypeAChecker check end. input = " << input << std::endl;
         return true;
     }
+
+    virtual std::string getError() const {
+        return "null";
+    }
+
 };
 class TypeBChecker : public ConditionChecker {
 public:
     virtual bool check(Result* result, std::string input) {
         std::cout << "TypeBChecker check end. input = " << input << std::endl;
         return true;
+    }
+    virtual std::string getError() const {
+        return "null";
     }
 };
 class TestConditionCheckerFactory : public ConditionCheckerFactory {

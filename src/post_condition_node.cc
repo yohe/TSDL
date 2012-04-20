@@ -74,6 +74,7 @@ void ConditionNode::execute() throw ( ExecuteException )
         bool ret = checker->check(_result, _inputParam);
         if(ret == false) { 
             std::string mes = "condition pass error. ConditionName = " + _conditionCommand + " : condition param = " + _inputParam;
+            mes += "  Error[" + checker->getError() + "]";
             throw ExecuteException(mes);
         }
     } catch ( boost::bad_any_cast& e) {
