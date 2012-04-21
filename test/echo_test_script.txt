@@ -1,7 +1,7 @@
-init test
-setup aaaa : cond null
-execute Echo TEST_1 : cond EchoCheck TEST_1
-execute Echo TEST_2 : cond EchoCheck TEST_2
-execute Echo TEST_3 : cond EchoCheck TEST_2
-teardown aaa : cond null
+init null
+setup null : cond null
+execute Echo TEST_1 : cond EchoCheck TEST_1_reply
+execute Echo TEST_2 : cond EchoCheck TEST_2_reply
+execute Echo TEST_3 : cond EchoCheck TEST_2_reply
+teardown null : cond null
 # and cond FizzBuzzCheck aa

@@ -17,7 +17,7 @@ int main(int argc, char const* argv[])
 
         std::string str;
         while(getline(s, str)) {
-            s << str << std::endl;
+            s << str << "_reply" << std::endl;
             s.flush();
         }
     }
