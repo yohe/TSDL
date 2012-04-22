@@ -20,7 +20,7 @@ std::string InitNode::getKey() const {
 void InitNode::parse(Context& context) throw ( ParseException )
 {
     Sentence sentence = context.currentSentence();
-    sentence.tokenize(" ");
+    sentence.tokenize("", " ", "\"");
 
     if(sentence.currentToken() == "") {
         throw ParseException("ScenarioError (init) : Scenario code is empty.");
@@ -46,16 +46,26 @@ void InitNode::parse(Context& context) throw ( ParseException )
 void InitNode::execute() throw ( ExecuteException )  
 {
     Executor* exe = _programNode->createExecutor(getKey());
-    Result* tmp = exe->execute(_inputParam);
+    Result* tmp = NULL;
+    try {
+        tmp = exe->execute(_inputParam);
 
-    InitResult* ret = dynamic_cast<InitResult*>(tmp);
-    int errorCode = ret->getResult<int>();
+        InitResult* ret = dynamic_cast<InitResult*>(tmp);
+        int errorCode = ret->getResult<int>();
+        if(errorCode != 0) {
+            std::stringstream ss;
+            ss << "ExecuteException: init ErrorCode = " << errorCode;
+            throw ExecuteException(ss.str());
+        }
 
-    if(errorCode != 0) {
-        std::stringstream ss;
-        ss << "ExecuteException: init ErrorCode = " << errorCode;
-        throw ExecuteException(ss.str());
+    } catch (ExecuteException& e) {
+        delete exe;
+        delete tmp;
+        throw e;
     }
+
+    delete exe;
+    delete tmp;
 
     //std::cout << "init execute end." << std::endl;
     return ;

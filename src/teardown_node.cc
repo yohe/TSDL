@@ -12,6 +12,7 @@ TeardownNode::TeardownNode(ProgramNode* node) : Node() , _programNode(node)
 TeardownNode::~TeardownNode() 
 {
 
+    delete _postCondition;
 }
 
 std::string TeardownNode::getKey() const {
@@ -20,7 +21,7 @@ std::string TeardownNode::getKey() const {
 void TeardownNode::parse(Context& context) throw ( ParseException )
 {
     Sentence sentence = context.currentSentence();
-    sentence.tokenize(" ");
+    sentence.tokenize("", " ", "\"");
 
     if(sentence.currentToken() == "") {
         throw ParseException("ScenarioError (teardown) : Scenario code is empty.");
@@ -52,9 +53,19 @@ void TeardownNode::parse(Context& context) throw ( ParseException )
 void TeardownNode::execute() throw ( ExecuteException )  
 {
     Executor* exe = _programNode->createExecutor(getKey());
-    Result* ret = exe->execute(_inputParam);
+    Result* ret = NULL;
+    try {
+        ret = exe->execute(_inputParam);
 
-    _postCondition->setResult(ret);
-    _postCondition->execute();
+        _postCondition->setResult(ret);
+        _postCondition->execute();
+    } catch (ExecuteException& e) {
+        delete exe;
+        delete ret;
+        throw e;
+    }
+
+    delete exe;
+    delete ret;
     return ;
 }

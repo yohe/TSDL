@@ -12,6 +12,7 @@ SetupNode::SetupNode(ProgramNode* node) : Node() , _programNode(node)
 SetupNode::~SetupNode() 
 {
 
+    delete _postCondition;
 }
 
 std::string SetupNode::getKey() const {
@@ -20,7 +21,7 @@ std::string SetupNode::getKey() const {
 void SetupNode::parse(Context& context) throw ( ParseException )
 {
     Sentence sentence = context.currentSentence();
-    sentence.tokenize(" ");
+    sentence.tokenize("", " ", "\"");
 
     if(sentence.currentToken() == "") {
         throw ParseException("ScenarioError (setup) : Scenario code is empty.");
@@ -52,11 +53,19 @@ void SetupNode::parse(Context& context) throw ( ParseException )
 void SetupNode::execute() throw ( ExecuteException )  
 {
     Executor* exe = _programNode->createExecutor(getKey());
-    Result* ret = exe->execute(_inputParam);
+    Result* ret = NULL;
+    try {
+        ret = exe->execute(_inputParam);
+        _postCondition->setResult(ret);
+        _postCondition->execute();
+    } catch (ExecuteException& e) {
+        delete exe;
+        delete ret;
+        throw e;
+    }
 
-    _postCondition->setResult(ret);
-    _postCondition->execute();
-
+    delete exe;
+    delete ret;
     //std::cout << "setup execute end." << std::endl;
     return ;
 }

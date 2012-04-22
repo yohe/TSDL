@@ -25,6 +25,24 @@ bool Context::hasNextSentence() const
     return true;
 }
 
+
+void Context::skipSentence(const std::string& nodeName) throw(ParseException) {
+    if(nodeName.find_first_of(_currentSentence.c_str(), 0, _currentSentence.size()) == std::string::npos) {
+        throw ParseException("Warning: " + nodeName + " is expected. but was " + _currentSentence);
+    }
+
+    nextSentence();
+}
+
+Sentence::Sentence(const std::string& sentence) : _sentence(sentence), _tokens(NULL)
+{
+}
+
+Sentence::~Sentence()
+{
+    delete _tokens;
+}
+
 Sentence Context::nextSentence() {
     _currentSentence = "";
     while(_currentSentence.empty() && hasNextSentence()) {
@@ -42,27 +60,14 @@ Sentence Context::nextSentence() {
 Sentence Context::currentSentence() {
     return Sentence(_currentSentence);
 }
-
-void Context::skipSentence(const std::string& nodeName) throw(ParseException) {
-    if(nodeName.find_first_of(_currentSentence.c_str(), 0, _currentSentence.size()) == std::string::npos) {
-        throw ParseException("Warning: " + nodeName + " is expected. but was " + _currentSentence);
-    }
-
-    nextSentence();
-}
-
-Sentence::Sentence(const std::string& sentence) : _sentence(sentence), _tokens(NULL)
-{
-}
-
-void Sentence::tokenize(const char* separator) {
+void Sentence::tokenize(const char* escape, const char* separator, const char* quoteChar) {
     if(_tokens != NULL) {
         delete _tokens;
         _tokens = NULL;
     }
 
-    boost::char_separator<char> sep(separator);
-    _tokens = new boost::tokenizer<char_separator<char> >(_sentence, sep);
+    boost::escaped_list_separator<char> sep(escape, separator, quoteChar);
+    _tokens = new boost::tokenizer<escaped_list_separator<char> >(_sentence, sep);
     _current = _tokens->begin();
 }
 
@@ -96,3 +101,9 @@ bool Sentence::hasNextToken() const {
     return (ite) != _tokens->end();
 }
 
+Sentence& Sentence::operator=(const Sentence& rhs) {
+    _sentence = rhs._sentence;
+    _tokens = NULL;
+
+    return *this;
+}

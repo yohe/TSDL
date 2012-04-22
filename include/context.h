@@ -11,23 +11,26 @@
 using namespace boost;
 
 class Sentence {
+    typedef tokenizer<escaped_list_separator<char> >::iterator iterator;
 public:
     Sentence(const std::string& sentence);
+    ~Sentence();
 
-    void tokenize(const char* separator);
+    void tokenize(const char* escapce, const char* separator, const char* quoteChar);
 
     bool hasNextToken() const;
     std::string nextToken();
     std::string currentToken() const;
     std::string getSentence() const { return _sentence; }
 
-    //iterator begin() const;
-    //iterator end() const;
+    iterator begin() const { return _tokens->begin(); }
+    iterator end() const { return _tokens->end(); }
+
+    Sentence& operator=(const Sentence& rhs);
 
 private:
     std::string _sentence;
-    tokenizer<char_separator<char> >* _tokens;
-    typedef tokenizer<char_separator<char> >::iterator iterator;
+    tokenizer<escaped_list_separator<char> >* _tokens;
     iterator _current;
 
 

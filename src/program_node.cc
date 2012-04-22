@@ -21,6 +21,9 @@ ProgramNode::~ProgramNode()
     delete _executeListNode;
     delete _setupNode;
     delete _initNode;
+
+    delete _executorFactory;
+    delete _conditionCheckerFactory;
 }
 
 void ProgramNode::parse(Context& context) throw ( ParseException )

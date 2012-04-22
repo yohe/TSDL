@@ -15,7 +15,6 @@ ConditionNode::ConditionNode(ProgramNode* node) : Node(), _programNode(node)
 
 ConditionNode::~ConditionNode()
 {
-
 }
 
 std::string ConditionNode::getKey() const 
@@ -75,9 +74,12 @@ void ConditionNode::execute() throw ( ExecuteException )
         if(ret == false) { 
             std::string mes = "condition pass error. ConditionName = " + _conditionCommand + " : condition param = " + _inputParam;
             mes += "  Error[" + checker->getError() + "]";
+            delete checker;
             throw ExecuteException(mes);
         }
+        delete checker;
     } catch ( boost::bad_any_cast& e) {
+        delete checker;
         std::stringstream ss;
         ss << "condition check error. [" << e.what() << "]" << std::endl;
         ss << "                       ConditionName = " << _conditionCommand << " : condition param = " << _inputParam;
@@ -97,6 +99,13 @@ PostConditionNode::PostConditionNode(ProgramNode* node) : Node(), _programNode(n
 
 PostConditionNode::~PostConditionNode()
 {
+    for(ConditionList::iterator ite = _conditionList.begin();   
+        ite != _conditionList.end();
+        ++ite) {
+
+        delete *ite;
+    }
+    _conditionList.clear();
 
 }
 
@@ -108,10 +117,19 @@ std::string PostConditionNode::getKey() const
 void PostConditionNode::parse(Context& context) throw ( ParseException )
 {
     Sentence sentence = context.currentSentence();
-    sentence.tokenize(":");
+    sentence.tokenize("", ":", "");
     sentence.nextToken();
-    Sentence condSentence(sentence.currentToken());
-    condSentence.tokenize(" ");
+
+    // remove the leading spaces.
+    std::string tmp = sentence.currentToken();
+    tmp = tmp.erase(0, tmp.find_first_not_of(" "));
+
+    Sentence condSentence(tmp);
+    condSentence.tokenize("", " ", "\"");
+
+    //for(tokenizer<escaped_list_separator<char> >::iterator ite = condSentence.begin(); ite != condSentence.end(); ++ite) {
+    //    std::cout << "<" << *ite << ">" << std::endl;
+    //}
 
     if(condSentence.currentToken() != getKey()) {
         std::string mes = "ScenarioError (PostCondition) : \"cond\" was expected in a scnenario code, but was " + condSentence.currentToken();
