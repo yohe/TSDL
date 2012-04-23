@@ -20,14 +20,14 @@ class InitExecutor : public Executor {
 class SetupExecutor : public Executor {
     virtual Result* execute(std::string inputParam) {
         std::cout << "setup execute. input = " << inputParam << std::endl;
-        return new InitResult(0);
+        return NULL;
 
     }
 };
 class TeardownExecutor : public Executor {
     virtual Result* execute(std::string inputParam) {
         std::cout << "teardown execute. input = " << inputParam << std::endl;
-        return new InitResult(0);
+        return NULL;
 
     }
 };
