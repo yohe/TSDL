@@ -13,6 +13,7 @@ ExecuteNode::ExecuteNode(ProgramNode* node) : Node(), _programNode(node)
 ExecuteNode::~ExecuteNode() 
 {
 
+    delete _postCondition;
 }
 
 std::string ExecuteNode::getKey() const {
@@ -22,13 +23,12 @@ std::string ExecuteNode::getKey() const {
 void ExecuteNode::parse(Context& context) throw ( ParseException )
 {
     Sentence sentence = context.currentSentence();
-    sentence.tokenize(" :");
+    sentence.tokenize("", " :", "\"");
 
     if(sentence.currentToken() != getKey()) {
         std::string mes = "ScenarioError (execute) : \"execute\" was expected in a scnenario code, but was " + sentence.currentToken();
         throw ParseException(mes);
     }
-    //std::cout << "execute" << std::endl;
 
     if(!sentence.hasNextToken()) {
         std::string mes = "ScenarioError (execute) : \"execute\" command format is \"execute [execute_name] [input_param] : [post_condition]\".";
@@ -55,16 +55,20 @@ void ExecuteNode::parse(Context& context) throw ( ParseException )
 void ExecuteNode::execute() throw ( ExecuteException ) 
 {
     Executor* exe = _programNode->createExecutor(_executeCommand);
-    Result* ret = exe->execute(_inputParam);
-
-    _postCondition->setResult(ret);
+    Result* ret = NULL;
     try {
+        ret = exe->execute(_inputParam);
+        _postCondition->setResult(ret);
         _postCondition->execute();
     } catch (ExecuteException& e) {
+        delete exe;
+        delete ret;
         std::string mes = _executeCommand + " execute error. [ " + e.what() + " ]";
         throw ExecuteException(mes);
     }
 
+    delete exe;
+    delete ret;
     return ;
 }
 
@@ -76,7 +80,12 @@ ExecuteListNode::ExecuteListNode(ProgramNode* node) : Node(), _programNode(node)
 
 ExecuteListNode::~ExecuteListNode() 
 {
-
+    for(ExecuteNodeList::iterator ite = _executeList.begin();
+        ite != _executeList.end();
+        ++ite) {
+        delete *ite;
+    }
+    _executeList.clear();
 }
 
 std::string ExecuteListNode::getKey() const {
@@ -92,7 +101,7 @@ void ExecuteListNode::parse(Context& context) throw ( ParseException )
         } catch (ParseException& e) {
             delete node;
             Sentence sentence = context.currentSentence();
-            sentence.tokenize(" :");
+            sentence.tokenize("", " :", "\"");
             if(sentence.currentToken() == getKey()) {
                 throw e;
                 assert(false);
