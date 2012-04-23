@@ -18,6 +18,7 @@ using namespace boost::asio;
 
 class InitExecutor : public Executor {
     virtual Result* execute(std::string inputParam) {
+        ::system("sh stop_server.sh");
         return new InitResult(0);
     }
 };
@@ -56,16 +57,16 @@ class EchoClientExecutor : public Executor {
         io_service io;
         ip::tcp::iostream s("127.0.0.1", "30000");
 
-        std::cout << "->Server : " << inputParam << std::endl;
+        std::cout << "Client->Server : " << inputParam << std::endl;
         s << inputParam << std::endl;
         s.flush();
 
         sleep(1);
 
         std::string str;
-        s >> str;
+        getline(s, str);
 
-        std::cout << "->Client : " << str << std::endl;
+        std::cout << "Server->Client : " << str << std::endl;
         return new EchoResult(str);
 
     }
