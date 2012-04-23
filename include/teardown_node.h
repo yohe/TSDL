@@ -20,8 +20,8 @@ public:
 
 private:
     std::string _inputParam;
-    PostConditionNode* _postCondition;
     ProgramNode* _programNode;
+    PostConditionNode* _postCondition;
 };
 
 #endif /* end of include guard */

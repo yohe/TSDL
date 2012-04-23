@@ -24,8 +24,8 @@ private:
 
     std::string _executeCommand;
     std::string _inputParam;
-    PostConditionNode* _postCondition;
     ProgramNode* _programNode;
+    PostConditionNode* _postCondition;
     //Executor* _executor;
 
 };

@@ -4,7 +4,7 @@
 #include "program_node.h"
 #include "post_condition_node.h"
 
-TeardownNode::TeardownNode(ProgramNode* node) : Node() , _programNode(node)
+TeardownNode::TeardownNode(ProgramNode* node) : Node() , _programNode(node), _postCondition(NULL)
 {
 
 }

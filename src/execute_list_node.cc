@@ -6,7 +6,7 @@
 #include "post_condition_node.h"
 
 
-ExecuteNode::ExecuteNode(ProgramNode* node) : Node(), _programNode(node)
+ExecuteNode::ExecuteNode(ProgramNode* node) : Node(), _programNode(node), _postCondition(NULL)
 {
 
 }

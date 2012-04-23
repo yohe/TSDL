@@ -4,7 +4,7 @@
 #include "program_node.h"
 #include "post_condition_node.h"
 
-SetupNode::SetupNode(ProgramNode* node) : Node() , _programNode(node)
+SetupNode::SetupNode(ProgramNode* node) : Node() , _programNode(node), _postCondition(NULL)
 {
 
 }
