@@ -22,11 +22,4 @@ private:
     ProgramNode* _programNode;
 };
 
-class InitResult : public Result {
-public:
-    InitResult(int errorCode) : Result() {
-        this->_result = errorCode;
-    }
-
-};
 #endif /* end of include guard */

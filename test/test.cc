@@ -14,7 +14,7 @@
 class InitExecutor : public Executor {
     virtual Result* execute(std::string inputParam) {
         std::cout << "init execute. input = " << inputParam << std::endl;
-        return new InitResult(0);
+        return NULL;
     }
 };
 class SetupExecutor : public Executor {

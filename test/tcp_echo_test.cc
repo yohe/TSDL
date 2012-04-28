@@ -19,20 +19,20 @@ using namespace boost::asio;
 class InitExecutor : public Executor {
     virtual Result* execute(std::string inputParam) {
         ::system("sh stop_server.sh");
-        return new InitResult(0);
+        return NULL;
     }
 };
 class SetupExecutor : public Executor {
     virtual Result* execute(std::string inputParam) {
         ::system("sh run_server.sh");
-        return new InitResult(0);
+        return NULL;
 
     }
 };
 class TeardownExecutor : public Executor {
     virtual Result* execute(std::string inputParam) {
         ::system("sh stop_server.sh");
-        return new InitResult(0);
+        return NULL;
 
     }
 };

@@ -46,26 +46,18 @@ void InitNode::parse(Context& context) throw ( ParseException )
 void InitNode::execute() throw ( ExecuteException )  
 {
     Executor* exe = _programNode->createExecutor(getKey());
-    Result* tmp = NULL;
+    Result* ret = NULL;
     try {
-        tmp = exe->execute(_inputParam);
-
-        InitResult* ret = dynamic_cast<InitResult*>(tmp);
-        int errorCode = ret->getResult<int>();
-        if(errorCode != 0) {
-            std::stringstream ss;
-            ss << "ExecuteException: init ErrorCode = " << errorCode;
-            throw ExecuteException(ss.str());
-        }
+        ret = exe->execute(_inputParam);
 
     } catch (ExecuteException& e) {
         delete exe;
-        delete tmp;
+        delete ret;
         throw e;
     }
 
     delete exe;
-    delete tmp;
+    delete ret;
 
     //std::cout << "init execute end." << std::endl;
     return ;
