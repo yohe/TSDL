@@ -1,3 +1,6 @@
+
+#include <iostream>
+
 #include "program_node.h"
 #include "parse_exception.h"
 #include "context.h"
@@ -54,8 +57,6 @@ void ProgramNode::parse(Context& context) throw ( ParseException )
         _teardownNode = NULL;
         throw e;
     }
-
-    // Execute
 
 }
 
