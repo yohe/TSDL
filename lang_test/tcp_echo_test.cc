@@ -7,11 +7,11 @@
 #include <string>
 #include <sstream>
 
-#include "context.h"
-#include "program_node.h"
-#include "init_node.h"
-#include "executor.h"
-#include "condition_checker.h"
+#include "tsdl/lang/context.h"
+#include "tsdl/lang/program_node.h"
+#include "tsdl/lang/init_node.h"
+#include "tsdl/lang/executor.h"
+#include "tsdl/lang/condition_checker.h"
 
 #include <boost/asio.hpp>
 using namespace boost::asio;

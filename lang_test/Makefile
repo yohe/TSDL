@@ -2,7 +2,7 @@
 BOOST_INCLUDE = /opt/local/include
 BOOST_LIB = /opt/local/lib
 
-SOURCE_DIR = ../src
+SOURCE_DIR = ../tsdl/lang
 ALL_SOURCE = $(SOURCE_DIR)/init_node.cc \
 			 $(SOURCE_DIR)/setup_node.cc \
 			 $(SOURCE_DIR)/program_node.cc \
@@ -13,12 +13,19 @@ ALL_SOURCE = $(SOURCE_DIR)/init_node.cc \
 all: test echo_test server client
 
 test: test.cc $(ALL_SOURCE)
-	g++ -o test -g -ggdb test.cc $(ALL_SOURCE) -I ../include -I $(BOOST_INCLUDE)
+	g++ -o test -g -ggdb test.cc $(ALL_SOURCE) -I ../ -I $(BOOST_INCLUDE)
 
 echo_test: tcp_echo_test.cc $(ALL_SOURCE)
-	g++ -o echo_test -g -ggdb tcp_echo_test.cc $(ALL_SOURCE) -I ../include -I $(BOOST_INCLUDE) -L $(BOOST_LIB) -lboost_system
+	g++ -o echo_test -g -ggdb tcp_echo_test.cc $(ALL_SOURCE) -I ../ -I $(BOOST_INCLUDE) -L $(BOOST_LIB) -lboost_system
 
 server: server.cc
-	g++ -o server server.cc -I ../include -I $(BOOST_INCLUDE) -L $(BOOST_LIB) -lboost_system
+	g++ -o server server.cc -I ../ -I $(BOOST_INCLUDE) -L $(BOOST_LIB) -lboost_system
 client: client.cc
-	g++ -o client client.cc -I ../include -I $(BOOST_INCLUDE) -L $(BOOST_LIB) -lboost_system
+	g++ -o client client.cc -I ../ -I $(BOOST_INCLUDE) -L $(BOOST_LIB) -lboost_system
+
+
+clean:
+	rm test
+	rm echo_test
+	rm server
+	rm client
