@@ -33,7 +33,7 @@ public:
     bool setup();
     std::string getError();
 
-    void executeAll(ScenarioResultCollector* collector);
+    void run(ScenarioResultCollector* collector);
     const ScenarioTree& getScenarioTree() const;
 
     const ScenarioEntry* getRootEntry() const;

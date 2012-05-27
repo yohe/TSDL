@@ -166,7 +166,7 @@ std::string ScenarioManager::getError() {
     return error_;
 }
 
-void ScenarioManager::executeAll(ScenarioResultCollector* collector) {
+void ScenarioManager::run(ScenarioResultCollector* collector) {
     tree_.root()->execute(exeFactory_, condFactory_, collector);
 }
 const ScenarioTree& ScenarioManager::getScenarioTree() const {
