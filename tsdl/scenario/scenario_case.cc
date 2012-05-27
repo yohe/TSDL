@@ -41,8 +41,8 @@ bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory*
     ProgramNode p;
     try {
         p.parse(c);
-        p.setExecutorFactory(NULL);
-        p.setConditionCheckerFactory(NULL);
+        p.setExecutorFactory(exeFactory);
+        p.setConditionCheckerFactory(condFactory);
         p.execute();
     } catch (ParseException& e) {
         ScenarioResult* result = new ScenarioResult(path, name_, false, e.what());
