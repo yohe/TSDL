@@ -9,6 +9,8 @@ class ScenarioGroup;
 class FormatOutputter;
 class ScenarioResultCollector;
 
+class ExecutorFactory;
+class ConditionCheckerFactory;
 
 class ScenarioTree {
 public:
@@ -26,7 +28,7 @@ private:
 
 class ScenarioManager {
 public:
-    ScenarioManager(FormatOutputter* output, const std::string& config = "");
+    ScenarioManager(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory,FormatOutputter* output, const std::string& config = "");
 
     bool setup();
     std::string getError();
@@ -51,6 +53,9 @@ private:
 
     std::string error_;
     ScenarioTree tree_;
+    ExecutorFactory* exeFactory_;
+    ConditionCheckerFactory* condFactory_;
+    FormatOutputter* outputter_;
 };
 #endif /* end of include guard */
 

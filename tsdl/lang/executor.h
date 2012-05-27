@@ -23,18 +23,24 @@ protected:
 
 class Executable {
 public:
+    Executable() {}
+    virtual ~Executable() {}
     virtual void execute() throw ( ExecuteException ) = 0;
 };
 
 class Node;
 class Executor {
 public:
+    Executor() {}
+    virtual ~Executor() {}
     virtual Result* execute(std::string inputParam) = 0;
 };
 
 
 class ExecutorFactory {
 public:
+    ExecutorFactory() {}
+    virtual ~ExecutorFactory() {}
     virtual Executor* create(std::string name) = 0;
 };
 

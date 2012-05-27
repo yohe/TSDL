@@ -4,6 +4,10 @@
 #include "tsdl/scenario/scenario_result.h"
 #include "tsdl/scenario/scenario_result_collector.h"
 
+#include "tsdl/lang/context.h"
+#include "tsdl/lang/program_node.h"
+#include "tsdl/lang/executor.h"
+#include "tsdl/lang/condition_checker.h"
 
 ScenarioGroup::ScenarioGroup(const std::string& name, ScenarioEntry* parent) : ScenarioEntry(name, parent) {
 
@@ -18,10 +22,10 @@ ScenarioEntry::EntryType ScenarioGroup::type() const {
     return ScenarioEntry::GROUP;
 }
 
-bool ScenarioGroup::execute(ScenarioResultCollector* collector) {
+bool ScenarioGroup::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, ScenarioResultCollector* collector) {
     bool success = true;
     for(iterator ite = begin(); ite != end(); ++ite) {
-        success = (success & ite->second->execute(collector));
+        success = (success & ite->second->execute(exeFactory, condFactory, collector));
     }
     std::string path = fullpath();
     ScenarioResult* result = new ScenarioResult(path, name_, success);

@@ -4,6 +4,9 @@
 
 #include <string>
 
+class ExecutorFactory;
+class ConditionCheckerFactory;
+
 class ScenarioResultCollector;
 
 class ScenarioEntry {
@@ -20,7 +23,7 @@ public:
     virtual EntryType type() const = 0;
     virtual ScenarioEntry* find(const std::string& name) const = 0;
 
-    virtual bool execute(ScenarioResultCollector* collector) = 0;
+    virtual bool execute(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, ScenarioResultCollector* collector) = 0;
 
     virtual size_t size() const = 0;
     ScenarioEntry* parent() const;

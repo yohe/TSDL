@@ -6,12 +6,16 @@
 
 class ConditionChecker {
 public:
+    ConditionChecker() {}
+    virtual ~ConditionChecker() {}
     virtual bool check(Result* result, std::string inputParam) = 0;
     virtual std::string getError() const = 0;
 };
 
 class ConditionCheckerFactory {
 public:
+    ConditionCheckerFactory() {}
+    virtual ~ConditionCheckerFactory() {}
     virtual ConditionChecker* create(std::string name) = 0;
 };
 

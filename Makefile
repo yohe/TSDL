@@ -1,8 +1,9 @@
 SHELL = /bin/sh
 
 ### メイク環境
-#CC = g++
-CC = g++-mp-4.5
+CC = g++
+#CC = clang++-mp-3.1
+#CC = g++-mp-4.5
 LINKER = 
 ARCHIVE = ar
 ARCHIVE_OPTION = cr
@@ -15,30 +16,28 @@ RM_OPTION = -rf
 TOP = .
 SOURCE_DIR = $(TOP)/tsdl
 OBJECT_DIR = $(TOP)/obj
+LIB_DIR = $(TOP)/lib
 LANG_OBJECT_DIR = $(OBJECT_DIR)/lang
 SCENARIO_OBJECT_DIR = $(OBJECT_DIR)/scenario
 OUTPUTTER_OBJECT_DIR = $(OBJECT_DIR)/outputter
 
 ### コンパイルオプション
-DEBUG = -g -ggdb
+DEBUG =
+#-g -ggdb
 OPT_FLAG = 
 #-O2
 
 INCLUDES = -I ./ -I /opt/local/include
 CLIB =  
 CFLAGS = -Wall -pedantic $(DEBUG) $(OPT_FLAG) $(INCLUDES)
-
-###### define
-# $(call make-depend, src-file, object-file, $(subst .o,.d,object-file))
-define make-depend
-	@$(CC) $(INCLUDES) -MM -MF $3 -MP -MT $2 $1
-endef
+MAKE_LIB_OP = -shared -o libtsdl.dylib
 
 #### ディレクトリ作成用
 MAKE_DIR = $(OBJECT_DIR) \
 		   $(LANG_OBJECT_DIR) \
 		   $(SCENARIO_OBJECT_DIR) \
-		   $(OUTPUTTER_OBJECT_DIR)
+		   $(OUTPUTTER_OBJECT_DIR) \
+		   $(LIB_DIR)
 
 ### ターゲット
 TARGET_BIN = 
@@ -66,10 +65,26 @@ OUTPUTTER_OBJECT = $(OUTPUTTER_OBJECT_DIR)/format_outputter.o \
 			       $(OUTPUTTER_OBJECT_DIR)/text_outputter.o \
 			       $(OUTPUTTER_OBJECT_DIR)/xml_outputter.o
 
-### ディレクトリ作成　後　ターゲット作成
-all: $(MAKE_DIR) 
-	make target
+ALL_OBJECT = $(LANG_OBJECT) \
+			 $(SCENARIO_OBJECT) \
+			 $(OUTPUTTER_OBJECT) 
 
+DEPENDS := $(ALL_OBJECT:%.o=%.d)
+
+LIB_TYPE = shared
+TARGET = lib/libtsdl.dylib
+
+#################################################################################################
+### ディレクトリ作成　後　ターゲット作成
+all:
+	@echo "###################################################"
+	@echo "#       Test Scenario Description Language        #"
+	@echo "#                  compile start                  #"
+	@echo "###################################################"
+	make $(MAKE_DIR)
+	make $(TARGET)
+
+-include $(DEPENDS)
 
 ### ディレクトリ作成用ルール
 $(OBJECT_DIR):
@@ -80,32 +95,57 @@ $(SCENARIO_OBJECT_DIR):
 	$(MKDIR) $(MKDIR_OPTION) $@
 $(OUTPUTTER_OBJECT_DIR):
 	$(MKDIR) $(MKDIR_OPTION) $@
+$(LIB_DIR):
+	$(MKDIR) $(MKDIR_OPTION) $@
 
-
-### ターゲット作成用ルール
-target: $(SUB_TARGET) Makefile
+all_compile:
 	@echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 	@echo "####################################"
-	@echo "#          Create TestBin          #"
+	@echo "#               lang               "
 	@echo "####################################"
-	make test_bin
-
-	@echo "--------------"
-	@echo "  SUCCESS!!!"
-	@echo "--------------"
-
-test_bin: $(TARGET_BIN)
+	make lang 
+	@echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+	@echo "####################################"
+	@echo "#             scenario             "
+	@echo "####################################"
+	make scenario
+	@echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+	@echo "####################################"
+	@echo "#            outputter             "
+	@echo "####################################"
+	make outputter
 
 lang: $(LANG_OBJECT)
 scenario: $(SCENARIO_OBJECT)
 outputter: $(OUTPUTTER_OBJECT)
 
-##### 全オブジェクト作成用ルール こちらを使用する
+$(TARGET): all_compile Makefile
+	@echo ""
+	@echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+	@echo "|"
+	@echo "|                Create Target($(TARGET))"
+	@echo "|"
+	@echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+
+ifeq ($(LIB_TYPE),shared)
+		$(CC) $(DEBUG) $(CLIB) $(ALL_OBJECT) $(MAKE_LIB_OP)
+		mv libtsdl.dylib lib/
+else
+		$(ARCHIVE) $(ARCHIVE_OPTION) libtsdl.a $(ALL_OBJECT)
+		ranlib libtsdl.a
+		mv libtsdl.a lib/
+endif
+	@echo "--------------"
+	@echo "  SUCCESS!!!"
+	@echo "--------------"
+
+
+##### 全オブジェクト作成用ルール
 $(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.cc
 	@echo "-------------------------------------------------------------"
 	@echo "-" $< "-"
 	$(call make-depend, $<, $@, $(subst .o,.d,$@))
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
 
 ### ターゲット、オブジェクトファイル削除用ルール
@@ -113,5 +153,6 @@ $(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.cc
 clean:
 	$(RM) $(RM_OPTION) obj
 	$(RM) $(RM_OPTION) bin
+	$(RM) $(RM_OPTION) $(TARGET)
 # DO NOT DELETE
 

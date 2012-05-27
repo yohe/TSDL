@@ -5,6 +5,10 @@
 #include <string>
 #include <map>
 
+class ExecutorFactory;
+class ConditionCheckerFactory;
+class ScenarioEntry;
+class ScenarioResultCollector;
 
 class ScenarioGroup : public ScenarioEntry {
 public:
@@ -16,7 +20,7 @@ public:
 
     virtual EntryType type() const;
 
-    virtual bool execute(ScenarioResultCollector* collector);
+    virtual bool execute(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, ScenarioResultCollector* collector);
 
     virtual ScenarioEntry* find(const std::string& name) const;
 
