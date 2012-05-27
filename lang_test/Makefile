@@ -1,27 +1,21 @@
 
 BOOST_INCLUDE = /opt/local/include
 BOOST_LIB = /opt/local/lib
+TSDL_LIB = ../lib
 
-SOURCE_DIR = ../tsdl/lang
-ALL_SOURCE = $(SOURCE_DIR)/init_node.cc \
-			 $(SOURCE_DIR)/setup_node.cc \
-			 $(SOURCE_DIR)/program_node.cc \
-			 $(SOURCE_DIR)/teardown_node.cc \
-			 $(SOURCE_DIR)/context.cc \
-			 $(SOURCE_DIR)/execute_list_node.cc \
-			 $(SOURCE_DIR)/post_condition_node.cc
 all: test echo_test server client
+	cp ../lib/libtsdl.dylib ./
 
 test: test.cc $(ALL_SOURCE)
-	g++ -o test -g -ggdb test.cc $(ALL_SOURCE) -I ../ -I $(BOOST_INCLUDE)
+	g++ -o test -g -ggdb test.cc $(ALL_SOURCE) -I ../ -I $(BOOST_INCLUDE) -L $(TSDL_LIB) -ltsdl
 
 echo_test: tcp_echo_test.cc $(ALL_SOURCE)
-	g++ -o echo_test -g -ggdb tcp_echo_test.cc $(ALL_SOURCE) -I ../ -I $(BOOST_INCLUDE) -L $(BOOST_LIB) -lboost_system
+	g++ -o echo_test -g -ggdb tcp_echo_test.cc $(ALL_SOURCE) -I ../ -I $(BOOST_INCLUDE) -L $(BOOST_LIB) -lboost_system -L $(TSDL_LIB) -ltsdl
 
 server: server.cc
-	g++ -o server server.cc -I ../ -I $(BOOST_INCLUDE) -L $(BOOST_LIB) -lboost_system
+	g++ -o server server.cc -I ../ -I $(BOOST_INCLUDE) -L $(BOOST_LIB) -lboost_system -L $(TSDL_LIB) -ltsdl
 client: client.cc
-	g++ -o client client.cc -I ../ -I $(BOOST_INCLUDE) -L $(BOOST_LIB) -lboost_system
+	g++ -o client client.cc -I ../ -I $(BOOST_INCLUDE) -L $(BOOST_LIB) -lboost_system -L $(TSDL_LIB) -ltsdl
 
 
 clean:
