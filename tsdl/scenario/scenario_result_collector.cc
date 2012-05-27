@@ -16,7 +16,11 @@ void ScenarioResultCollector::addResult(const std::string& path, ScenarioResult*
     if(results_.count(path) != 0) {
         return;
     }
-    //std::cout << "+++++ [" << path << "]" << std::endl;
+    if(path.size() == 1) {
+        results_[path] = result;
+        return;
+    }
+    std::cout << "Add+++++ [" << path << "]" << std::endl;
 
     results_[path] = result;
 }
@@ -24,17 +28,21 @@ void ScenarioResultCollector::addResult(const std::string& path, ScenarioResult*
 void ScenarioResultCollector::output(FormatOutputter* outputter) {
 
     outputter->start();
-    output("/", root_, outputter);
+    output("", root_, outputter);
     outputter->end();
 }
 
 void ScenarioResultCollector::output(const std::string& parentPath, ScenarioEntry* entry, FormatOutputter* outputter) {
-    std::cout << parentPath <<std::endl;
-    std::cout << entry->name() <<std::endl;
+    //std::cout << parentPath <<std::endl;
+    //std::cout << entry->name() <<std::endl;
 
     std::string path = parentPath + entry->name();
+    if(entry->type() == ScenarioEntry::GROUP) {
+        path.append("/");
+    }
+    std::cout << "PointB  " << path << std::endl;
     if(results_.count(path) == 0) {
-        //std::cout << "----- [" << path << "]" << std::endl;
+        std::cout << "PointC----- [" << path << "]" << std::endl;
         return;
     }
     ScenarioResult* result = results_.at(path);
@@ -55,3 +63,7 @@ void ScenarioResultCollector::output(const std::string& parentPath, ScenarioEntr
     outputter->end(result);
 }
 
+
+void ScenarioResultCollector::setRoot(ScenarioGroup* root) {
+    root_ = root;
+}

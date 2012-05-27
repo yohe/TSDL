@@ -28,12 +28,12 @@ private:
 
 class ScenarioManager {
 public:
-    ScenarioManager(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory,FormatOutputter* output, const std::string& config = "");
+    ScenarioManager(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, const std::string& config = "");
 
     bool setup();
     std::string getError();
 
-    void run(ScenarioResultCollector* collector);
+    void run(FormatOutputter* outputter, ScenarioResultCollector* collector);
     const ScenarioTree& getScenarioTree() const;
 
     const ScenarioEntry* getRootEntry() const;
@@ -55,7 +55,6 @@ private:
     ScenarioTree tree_;
     ExecutorFactory* exeFactory_;
     ConditionCheckerFactory* condFactory_;
-    FormatOutputter* outputter_;
 };
 #endif /* end of include guard */
 

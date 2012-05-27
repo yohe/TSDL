@@ -149,10 +149,9 @@ bool ScenarioTree::erase(const std::string& path, bool force, std::string& error
 }
 
 
-ScenarioManager::ScenarioManager(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory,FormatOutputter* output, const std::string& config) :
+ScenarioManager::ScenarioManager(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, const std::string& config) :
     exeFactory_(exeFactory),
-    condFactory_(condFactory),
-    outputter_(output)
+    condFactory_(condFactory)
 {
 }
 
@@ -166,8 +165,10 @@ std::string ScenarioManager::getError() {
     return error_;
 }
 
-void ScenarioManager::run(ScenarioResultCollector* collector) {
+void ScenarioManager::run(FormatOutputter* output, ScenarioResultCollector* collector) {
+    collector->setRoot((ScenarioGroup*)(tree_.root()));
     tree_.root()->execute(exeFactory_, condFactory_, collector);
+    collector->output(output);
 }
 const ScenarioTree& ScenarioManager::getScenarioTree() const {
 

@@ -13,12 +13,14 @@ class ScenarioResult;
 class ScenarioResultCollector {
 public:
 
-    ScenarioResultCollector(ScenarioGroup* root);
+    ScenarioResultCollector(ScenarioGroup* root = NULL);
     virtual ~ScenarioResultCollector();
 
     void addResult(const std::string& path, ScenarioResult* result);
 
     void output(FormatOutputter* outputter);
+
+    void setRoot(ScenarioGroup* root);
 
 protected:
 

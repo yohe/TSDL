@@ -19,7 +19,7 @@ int main(int argc, char const* argv[])
         assert( tree.insert("/test2", new ScenarioCase("aaaa.scn", "test5", NULL), error) == false );
         //std::cout << error << std::endl;
         assert( error == "test2 isn't group.");
-        assert( tree.insert("/test1/", new ScenarioGroup("test3"), error) );
+        assert( tree.insert("/test1", new ScenarioGroup("test3"), error) );
         assert( tree.insert("/test1/test3/", new ScenarioCase("aaaa.scn", "test4", NULL ), error) );
         assert( tree.insert("/test1/test3/test5/test6", new ScenarioCase("aaaa.scn", "test6", NULL ), error) == false);
         //std::cout << error << std::endl;
@@ -39,12 +39,13 @@ int main(int argc, char const* argv[])
         assert( error == "test3 has children yet.");
         assert( tree.erase("/test1/test3", true, error) );    // children(test4) exists yet. but remove by force flag.
         assert( tree.erase("/test1", false, error) );                // ScearioGroup remove.
+
     }
 
 
     std::cout  << "---------------ScenarioManager Test------------------" << std::endl;
     {
-        ScenarioManager manager(NULL, NULL, new TextOutputter("test.result"), "./scenario.conf");
+        ScenarioManager manager(NULL, NULL, "./scenario.conf");
 
         assert(manager.setup());
         assert(manager.getError() == "");
@@ -60,6 +61,13 @@ int main(int argc, char const* argv[])
 
         assert( manager.addScenario("/test2", "aaaa.scn") == false );
         assert( manager.addGroup("/test1") == false );
+
+        TextOutputter outputter("test.result");
+        XmlOutputter xml_outputter("test.result.xml");
+        ScenarioResultCollector collector;
+        manager.run(&outputter, &collector);
+
+        collector.output(&xml_outputter);
 
         assert( manager.delScenario("/test3") == false);
         assert( manager.delScenario("/test2") );
@@ -80,6 +88,7 @@ int main(int argc, char const* argv[])
 
         assert( manager.moveGroup("/test1", "/test2/test1") );
         assert( tree.find("/test2/test1/test4") != NULL);
+
     }
 
     std::cout << "-----------------ScenarioResultCollector Test---------------------" << std::endl;
@@ -98,7 +107,7 @@ int main(int argc, char const* argv[])
         collector.addResult("/", &result);
         collector.addResult("/test1", &result1);
         
-        TextOutputter outputter("test.result");
+        TextOutputter outputter("test2.result");
         collector.output(&outputter);
     }
 

@@ -16,7 +16,16 @@ void TextOutputter::start(ScenarioResult* result) {
         ofs_ << "Test Result:" << std::endl;
         return;
     }
-    ofs_ << "-------------------- Start (" << result->fullpath_ << ") --------------------" << std::endl;
+    std::string indent;
+    for(int i = 0; i < indentCount_; ++i) {
+         indent += "  ";
+    }
+    ofs_ << indent << "------------ TestGroup<" << result->fullpath_ << ">   [";
+    if(result->success_) {
+        ofs_ << "SUCCESS.] ------------" << std::endl;
+    } else {
+        ofs_ << "FAILUER!!!.] ------------" << std::endl;
+    }
     indentCount_++;
 }
 
@@ -27,15 +36,19 @@ void TextOutputter::end(ScenarioResult* result) {
         return;
     }
 
-    ofs_ << "-------------------- end (" << result->fullpath_ << ") --------------------" << std::endl;
     indentCount_--;
+    std::string indent;
+    for(int i = 0; i < indentCount_; ++i) {
+         indent += "  ";
+    }
+    ofs_ << indent << "------------ TestGroup<" << result->fullpath_ << "> End" << std::endl;
 }
 
 void TextOutputter::write(ScenarioResult* result) {
 
     std::string indent;
     for(int i = 0; i < indentCount_; ++i) {
-         indent += "\t";
+         indent += "  ";
     }
 
     ofs_ << indent << result->name_;
