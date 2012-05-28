@@ -1,5 +1,6 @@
 
 #include "tsdl/scenario/scenario_result_collector.h"
+#include "tsdl/scenario/scenario_result.h"
 #include "tsdl/scenario/scenario_entry.h"
 #include "tsdl/scenario/scenario_group.h"
 #include "tsdl/outputter/format_outputter.h"
@@ -10,16 +11,21 @@ ScenarioResultCollector::ScenarioResultCollector(ScenarioGroup* root) : root_(ro
 
 ScenarioResultCollector::~ScenarioResultCollector() {
 
+    for(ResultMap::iterator ite = results_.begin(); ite != results_.end(); ++ite) {
+        delete ite->second;
+    }
+    results_.clear();
 }
 
 void ScenarioResultCollector::addResult(const std::string& path, ScenarioResult* result) {
     if(results_.count(path) != 0) {
+        std::cout << "-----------------------" << std::endl;
         return;
     }
-    if(path.size() == 1) {
-        results_[path] = result;
-        return;
-    }
+    //if(path.size() == 1) {
+    //    results_[path] = result;
+    //    return;
+    //}
 
     results_[path] = result;
 }

@@ -33,6 +33,7 @@ bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory*
         std::string errorStr = "ScenarioFile open error. [" + scenario_ + "]";
         ScenarioResult* result = new ScenarioResult(path, name_, false, errorStr);
         collector->addResult(path, result);
+        delete ifs;
         return false;
     }
 

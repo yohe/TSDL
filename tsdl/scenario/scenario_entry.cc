@@ -1,4 +1,4 @@
-
+#include <iostream>
 #include "tsdl/scenario/scenario_entry.h"
 
 

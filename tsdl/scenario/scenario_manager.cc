@@ -4,6 +4,8 @@
 #include "tsdl/scenario/scenario_group.h"
 #include "tsdl/scenario/scenario_manager.h"
 #include "tsdl/scenario/scenario_result_collector.h"
+#include "tsdl/lang/executor.h"
+#include "tsdl/lang/condition_checker.h"
 
 #include <boost/tokenizer.hpp>
 
@@ -104,8 +106,8 @@ bool ScenarioTree::erase(const std::string& path, bool force, std::string& error
         }
 
         eraseEntry = find;
+        eraseDir = searchDir;
         if(find->type() == ScenarioEntry::GROUP) {
-            eraseDir = searchDir;
             searchDir = find;
         } else {
             ite++;
@@ -126,7 +128,7 @@ bool ScenarioTree::erase(const std::string& path, bool force, std::string& error
             return false;
         }
     }
-    
+
     ScenarioGroup* dir = dynamic_cast<ScenarioGroup*>(eraseDir);
     dir->remove(eraseEntry);
     delete eraseEntry;
@@ -141,6 +143,10 @@ ScenarioManager::ScenarioManager(ExecutorFactory* exeFactory, ConditionCheckerFa
 {
 }
 
+ScenarioManager::~ScenarioManager() {
+    delete exeFactory_;
+    delete condFactory_;
+}
 
 bool ScenarioManager::setup() {
 

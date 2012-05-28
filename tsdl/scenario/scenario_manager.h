@@ -29,6 +29,7 @@ private:
 class ScenarioManager {
 public:
     ScenarioManager(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, const std::string& config = "");
+    ~ScenarioManager();
 
     bool setup();
     std::string getError();

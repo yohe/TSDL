@@ -22,10 +22,8 @@ SCENARIO_OBJECT_DIR = $(OBJECT_DIR)/scenario
 OUTPUTTER_OBJECT_DIR = $(OBJECT_DIR)/outputter
 
 ### コンパイルオプション
-DEBUG =
-#-g -ggdb
-OPT_FLAG = 
-#-O2
+DEBUG = -g
+OPT_FLAG = -O0
 
 INCLUDES = -I ./ -I /opt/local/include
 CLIB =  

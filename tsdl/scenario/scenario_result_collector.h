@@ -11,6 +11,7 @@ class ScenarioGroup;
 class ScenarioResult;
 
 class ScenarioResultCollector {
+    typedef std::map<std::string, ScenarioResult*> ResultMap;
 public:
 
     ScenarioResultCollector(ScenarioGroup* root = NULL);
@@ -27,7 +28,7 @@ protected:
     void output(const std::string& path, ScenarioEntry* entry, FormatOutputter* outputter);
 
     ScenarioEntry* root_;
-    std::map<std::string, ScenarioResult*> results_;
+    ResultMap results_;
 };
 
 #endif /* end of include guard */

@@ -12,16 +12,19 @@ int main(int argc, char const* argv[])
         std::string error;
         ScenarioTree tree;
         assert( tree.insert("/", new ScenarioGroup("test1"), error) );
-        assert( tree.insert("/", new ScenarioGroup("test1"), error) == false );
+        ScenarioGroup tmp_3("test1");
+        assert( tree.insert("/", &tmp_3, error) == false );
         //std::cout << error << std::endl;
         assert( error == "test1 is already exist.");
         assert( tree.insert("/", new ScenarioCase("aaaa.scn", "test2", NULL), error) );
-        assert( tree.insert("/test2", new ScenarioCase("aaaa.scn", "test5", NULL), error) == false );
+        ScenarioCase tmp_1("aaaa.scn", "test5", NULL);
+        assert( tree.insert("/test2", &tmp_1, error) == false );
         //std::cout << error << std::endl;
         assert( error == "test2 isn't group.");
         assert( tree.insert("/test1", new ScenarioGroup("test3"), error) );
         assert( tree.insert("/test1/test3/", new ScenarioCase("aaaa.scn", "test4", NULL ), error) );
-        assert( tree.insert("/test1/test3/test5/test6", new ScenarioCase("aaaa.scn", "test6", NULL ), error) == false);
+        ScenarioCase tmp_2("aaaa.scn", "test6", NULL );
+        assert( tree.insert("/test1/test3/test5/test6", &tmp_2, error) == false);
         //std::cout << error << std::endl;
         assert( error == "/test1/test3/test5/test6 isn't exist.");
 
@@ -94,18 +97,18 @@ int main(int argc, char const* argv[])
     std::cout << "-----------------ScenarioResultCollector Test---------------------" << std::endl;
     {
         ScenarioGroup root("", NULL);
-        ScenarioCase test1("aaaa.scn", "test1", &root);
+        ScenarioCase* test1 = new ScenarioCase("aaaa.scn", "test1", &root);
         //std::cout << test1.fullpath() << std::endl;
-        assert( test1.fullpath() == "/test1");
+        assert( test1->fullpath() == "/test1");
         //std::cout << root.fullpath() << std::endl;
         assert( root.fullpath() == "/");
-        root.add(&test1);
+        root.add(test1);
         ScenarioResultCollector collector(&root);
 
-        ScenarioResult result("/", "", true);
-        ScenarioResult result1("/test1", "test1", false, "ERROR");
-        collector.addResult("/", &result);
-        collector.addResult("/test1", &result1);
+        ScenarioResult* result = new ScenarioResult("/", "", true);
+        ScenarioResult* result1 = new ScenarioResult("/test1", "test1", false, "ERROR");
+        collector.addResult("/", result);
+        collector.addResult("/test1", result1);
         
         TextOutputter outputter("test2.result");
         collector.output(&outputter);

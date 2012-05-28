@@ -14,7 +14,11 @@ ScenarioGroup::ScenarioGroup(const std::string& name, ScenarioEntry* parent) : S
 }
 
 ScenarioGroup::~ScenarioGroup() {
+    for(iterator ite = begin(); ite != end(); ++ite) {
+        delete ite->second;
+    }
 
+    group_.clear();
 }
 
 ScenarioEntry::EntryType ScenarioGroup::type() const {
