@@ -25,13 +25,11 @@ ScenarioEntry::EntryType ScenarioCase::type() const {
 }
 
 bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, ScenarioResultCollector* collector) {
-    std::cout << "----------[" << name_ << "]---------------" << std::endl;
     std::string path = fullpath();
 
     std::ifstream* ifs = NULL;
     ifs = new  std::ifstream(scenario_.c_str());
     if(!ifs->is_open()) {
-        std::cout << "PointA" << path << std::endl;
         std::string errorStr = "ScenarioFile open error. [" + scenario_ + "]";
         ScenarioResult* result = new ScenarioResult(path, name_, false, errorStr);
         collector->addResult(path, result);

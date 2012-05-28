@@ -40,11 +40,8 @@ MAKE_DIR = $(OBJECT_DIR) \
 		   $(LIB_DIR)
 
 ### ターゲット
-TARGET_BIN = 
-
-SUB_TARGET = lang \
-			 scenario \
-			 outputter 
+LIB_TYPE = shared
+TARGET = lib/libtsdl.dylib
 
 LANG_OBJECT = $(LANG_OBJECT_DIR)/context.o \
 			  $(LANG_OBJECT_DIR)/program_node.o \
@@ -71,8 +68,6 @@ ALL_OBJECT = $(LANG_OBJECT) \
 
 DEPENDS := $(ALL_OBJECT:%.o=%.d)
 
-LIB_TYPE = shared
-TARGET = lib/libtsdl.dylib
 
 #################################################################################################
 ### ディレクトリ作成　後　ターゲット作成

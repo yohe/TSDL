@@ -41,7 +41,6 @@ ScenarioEntry* ScenarioTree::find(const std::string path) const {
 }
 
 bool ScenarioTree::insert(const std::string& path, ScenarioEntry* entry, std::string& error) {
-    //std::cout << "[" << path << entry->name() << "]" << std::endl;;
 
     boost::char_separator<char> sep("/");
     boost::tokenizer<boost::char_separator<char> > tokens(path, sep);
@@ -51,14 +50,10 @@ bool ScenarioTree::insert(const std::string& path, ScenarioEntry* entry, std::st
     typedef boost::tokenizer<boost::char_separator<char> >::iterator Iterator;
     Iterator ite = tokens.begin();
 
-    //std::cout << "--------------------------------" << std::endl;;
     for(; ite != tokens.end(); ite++) {
         ScenarioEntry* find = insertDir->find(*ite);
-        //std::cout << "[" << *ite << "]" << std::endl;;
-        //std::cout << find << std::endl;;
 
         if(find == NULL) {
-            //std::cout << "find == NULL" << std::endl;
             break;
         }
         insertDir = find;
@@ -89,7 +84,6 @@ bool ScenarioTree::insert(const std::string& path, ScenarioEntry* entry, std::st
 }
 
 bool ScenarioTree::erase(const std::string& path, bool force, std::string& error) {
-    //std::cout << "[" << path << "]" << std::endl;;
 
     boost::char_separator<char> sep("/");
     boost::tokenizer<boost::char_separator<char> > tokens(path, sep);
@@ -102,13 +96,10 @@ bool ScenarioTree::erase(const std::string& path, bool force, std::string& error
     typedef boost::tokenizer<boost::char_separator<char> >::iterator Iterator;
     Iterator ite = tokens.begin();
 
-    //std::cout << "--------------------------------" << std::endl;;
     for(; ite != tokens.end(); ite++) {
         ScenarioEntry* find = searchDir->find(*ite);
-        //std::cout << "[" << *ite << "]" << std::endl;;
 
         if(find == NULL) {
-            //std::cout << "find == NULL" << std::endl;
             break;
         }
 
@@ -121,16 +112,12 @@ bool ScenarioTree::erase(const std::string& path, bool force, std::string& error
             break;
         }
     }
-    //std::cout << "--------------------------------" << std::endl;;
-    //std::cout << eraseDir << std::endl;;
-    //std::cout << eraseEntry << std::endl;;
 
     // incomplete path.
     if(ite != tokens.end()) {
         error = path + " isn't exsit.";
         return false;
     }
-    //std::cout << "--------------------------------" << std::endl;;
 
     // children exist.
     if(eraseEntry->type() == ScenarioEntry::GROUP && eraseEntry->size() != 0) {
@@ -140,7 +127,6 @@ bool ScenarioTree::erase(const std::string& path, bool force, std::string& error
         }
     }
     
-    //std::cout << eraseEntry->name() << std::endl;;
     ScenarioGroup* dir = dynamic_cast<ScenarioGroup*>(eraseDir);
     dir->remove(eraseEntry);
     delete eraseEntry;
@@ -176,7 +162,6 @@ const ScenarioTree& ScenarioManager::getScenarioTree() const {
 }
 
 bool ScenarioManager::addEntry(const std::string& path, ScenarioEntry::EntryType type, const std::string& scenarioFile) {
-    //std::cout << "----------" << path << "-------------" << std::endl;
     if(tree_.find(path) != NULL) {
         error_ = "[" + path +  "] is alreay exist.";
         return false;
@@ -184,9 +169,6 @@ bool ScenarioManager::addEntry(const std::string& path, ScenarioEntry::EntryType
 
     std::string parentPath = path.substr(0, path.find_last_of('/')+1);
     std::string name = path.substr(parentPath.size());
-
-    //std::cout << parentPath << std::endl;
-    //std::cout << name << std::endl;
 
     ScenarioEntry* parent = tree_.find(parentPath);
     if(parent == NULL) {
@@ -208,7 +190,6 @@ bool ScenarioManager::addEntry(const std::string& path, ScenarioEntry::EntryType
         assert(false);
     }
 
-    //std::cout << "----------" << path << "-------------     OK" << std::endl;
 
     return true;
 }
@@ -235,7 +216,6 @@ bool ScenarioManager::delGroup(const std::string& path, bool force) {
 }
 bool ScenarioManager::moveEntry(const std::string& oldPath, const std::string& newPath) {
     std::string newParentPath = newPath.substr(0, newPath.find_last_of("/")+1);
-    //std::cout << newParentPath << std::endl;
 
     if(tree_.find(oldPath) == NULL) {
         error_ = "[" + oldPath + "] doesn't exist.";

@@ -23,7 +23,6 @@ ScenarioEntry::EntryType ScenarioGroup::type() const {
 }
 
 bool ScenarioGroup::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, ScenarioResultCollector* collector) {
-    std::cout << "-----------<" << name_ << ">-------------" << std::endl;
     bool success = true;
     for(iterator ite = begin(); ite != end(); ++ite) {
         success = (success & ite->second->execute(exeFactory, condFactory, collector));
@@ -32,7 +31,6 @@ bool ScenarioGroup::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory
     ScenarioResult* result = new ScenarioResult(path, name_, success);
     collector->addResult(path, result);
     
-    std::cout << "-----------<" << name_ << ">End-------------" << std::endl;
     return success;
 }
 

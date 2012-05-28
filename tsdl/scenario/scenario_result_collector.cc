@@ -20,7 +20,6 @@ void ScenarioResultCollector::addResult(const std::string& path, ScenarioResult*
         results_[path] = result;
         return;
     }
-    std::cout << "Add+++++ [" << path << "]" << std::endl;
 
     results_[path] = result;
 }
@@ -33,16 +32,12 @@ void ScenarioResultCollector::output(FormatOutputter* outputter) {
 }
 
 void ScenarioResultCollector::output(const std::string& parentPath, ScenarioEntry* entry, FormatOutputter* outputter) {
-    //std::cout << parentPath <<std::endl;
-    //std::cout << entry->name() <<std::endl;
 
     std::string path = parentPath + entry->name();
     if(entry->type() == ScenarioEntry::GROUP) {
         path.append("/");
     }
-    std::cout << "PointB  " << path << std::endl;
     if(results_.count(path) == 0) {
-        std::cout << "PointC----- [" << path << "]" << std::endl;
         return;
     }
     ScenarioResult* result = results_.at(path);
