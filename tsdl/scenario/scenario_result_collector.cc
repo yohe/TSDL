@@ -30,7 +30,7 @@ void ScenarioResultCollector::addResult(const std::string& path, ScenarioResult*
     results_[path] = result;
 }
 
-void ScenarioResultCollector::output(FormatOutputter* outputter) {
+void ScenarioResultCollector::output(FormatOutputter* outputter, size_t tests, size_t failures, size_t errors) {
 
     outputter->start();
     output("", root_, outputter);

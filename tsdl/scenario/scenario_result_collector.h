@@ -19,7 +19,7 @@ public:
 
     void addResult(const std::string& path, ScenarioResult* result);
 
-    void output(FormatOutputter* outputter);
+    void output(FormatOutputter* outputter, size_t tests, size_t failures, size_t errors);
 
     void setRoot(ScenarioGroup* root);
 

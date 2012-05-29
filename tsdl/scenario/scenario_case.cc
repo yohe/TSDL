@@ -24,7 +24,10 @@ ScenarioEntry::EntryType ScenarioCase::type() const {
     return ScenarioEntry::CASE;
 }
 
-bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, ScenarioResultCollector* collector) {
+bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, ScenarioResultCollector* collector,
+                           size_t& totalTests, size_t& totalFailures, size_t& totalErrors) {
+    totalTests++;
+
     std::string path = fullpath();
 
     std::ifstream* ifs = NULL;
@@ -34,6 +37,7 @@ bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory*
         ScenarioResult* result = new ScenarioResult(path, name_, false, errorStr);
         collector->addResult(path, result);
         delete ifs;
+        totalErrors++;
         return false;
     }
 
@@ -48,10 +52,12 @@ bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory*
     } catch (ParseException& e) {
         ScenarioResult* result = new ScenarioResult(path, name_, false, e.what());
         collector->addResult(path, result);
+        totalErrors++;
         return false;
     } catch (ExecuteException& e) {
         ScenarioResult* result = new ScenarioResult(path, name_, false, e.what());
         collector->addResult(path, result);
+        totalFailures++;
         return false;
     }
     delete ifs;

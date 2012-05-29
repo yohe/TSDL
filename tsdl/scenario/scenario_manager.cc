@@ -158,9 +158,12 @@ std::string ScenarioManager::getError() {
 }
 
 void ScenarioManager::run(FormatOutputter* output, ScenarioResultCollector* collector) {
+    size_t tests;
+    size_t failures;
+    size_t errors;
     collector->setRoot((ScenarioGroup*)(tree_.root()));
-    tree_.root()->execute(exeFactory_, condFactory_, collector);
-    collector->output(output);
+    tree_.root()->execute(exeFactory_, condFactory_, collector, tests, failures, errors);
+    collector->output(output, tests, failures, errors);
 }
 const ScenarioTree& ScenarioManager::getScenarioTree() const {
 

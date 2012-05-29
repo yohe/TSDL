@@ -67,10 +67,12 @@ int main(int argc, char const* argv[])
 
         TextOutputter outputter("test.result");
         XmlOutputter xml_outputter("test.result.xml");
+        JUnitOutputter junit_outputter("test.result_junit.xml");
         ScenarioResultCollector collector;
         manager.run(&outputter, &collector);
 
-        collector.output(&xml_outputter);
+        collector.output(&xml_outputter, 0, 0, 0);
+        collector.output(&junit_outputter, 0, 0, 0);
 
         assert( manager.delScenario("/test3") == false);
         assert( manager.delScenario("/test2") );
@@ -111,7 +113,7 @@ int main(int argc, char const* argv[])
         collector.addResult("/test1", result1);
         
         TextOutputter outputter("test2.result");
-        collector.output(&outputter);
+        collector.output(&outputter, 0, 0, 0);
     }
 
     return 0;

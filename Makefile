@@ -58,7 +58,8 @@ SCENARIO_OBJECT = $(SCENARIO_OBJECT_DIR)/scenario_entry.o \
 
 OUTPUTTER_OBJECT = $(OUTPUTTER_OBJECT_DIR)/format_outputter.o \
 			       $(OUTPUTTER_OBJECT_DIR)/text_outputter.o \
-			       $(OUTPUTTER_OBJECT_DIR)/xml_outputter.o
+			       $(OUTPUTTER_OBJECT_DIR)/xml_outputter.o \
+			       $(OUTPUTTER_OBJECT_DIR)/junit_outputter.o
 
 ALL_OBJECT = $(LANG_OBJECT) \
 			 $(SCENARIO_OBJECT) \

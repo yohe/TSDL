@@ -13,3 +13,8 @@ ScenarioResult::~ScenarioResult() {
 
 }
 
+void ScenarioResult::setTotal(size_t totalTests, size_t totalFailures, size_t totalErrors) {
+    tests_ = totalTests;
+    failures_= totalFailures;
+    errors_= totalErrors;
+}
