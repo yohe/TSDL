@@ -21,7 +21,11 @@ void JUnitOutputter::start(ScenarioResult* result) {
              << result->failures_ << "\" errors=\"" << result->errors_
              << "\" name=\"" << result->fullpath_ << "\">" << std::endl;
     } else {
-        ofs_ << "<testsuite tests=\"" << result->tests_ << "\" failures=\""
+        std::string indent;
+        for(int i = 0; i < indentCount_; ++i) {
+            indent += "  ";
+        }
+        ofs_ << indent << "<testsuite tests=\"" << result->tests_ << "\" failures=\""
              << result->failures_ << "\" errors=\"" << result->errors_
              << "\" name=\"" << result->fullpath_ << "\">" << std::endl;
     }
@@ -40,16 +44,25 @@ void JUnitOutputter::end(ScenarioResult* result) {
     if(indentCount_ == 0) {
         ofs_ << "</testsuites>" << std::endl;
     } else {
-        ofs_ << "</testsuite>" << std::endl;
+        std::string indent;
+        for(int i = 0; i < indentCount_; ++i) {
+            indent += "  ";
+        }
+        ofs_ << indent << "</testsuite>" << std::endl;
     }
 
 }
 
 void JUnitOutputter::write(ScenarioResult* result) {
-    ofs_ << "<testcase name=\"" << result->name_ << "\" classname=\"\" status=\"\" time=\"\">" << std::endl;
-    if(!result->success_) {
-        ofs_ << "<failure message=\"" << result->errorStr_ << "\" type=\"\"/>" << std::endl;
+    std::string indent;
+    for(int i = 0; i < indentCount_; ++i) {
+        indent += "  ";
     }
-    ofs_ << "</testcase>" << std::endl;
+
+    ofs_ << indent << "<testcase name=\"" << result->name_ << "\" classname=\"\" status=\"\" time=\"\">" << std::endl;
+    if(!result->success_) {
+        ofs_ << indent << "  <failure message=\"" << result->errorStr_ << "\" type=\"\"/>" << std::endl;
+    }
+    ofs_ << indent << "</testcase>" << std::endl;
 }
 
