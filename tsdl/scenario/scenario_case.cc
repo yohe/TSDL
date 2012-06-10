@@ -4,6 +4,7 @@
 #include "tsdl/scenario/scenario_case.h"
 #include "tsdl/scenario/scenario_result.h"
 #include "tsdl/scenario/scenario_result_collector.h"
+#include "tsdl/scenario/scenario_timer.h"
 
 #include "tsdl/lang/context.h"
 #include "tsdl/lang/program_node.h"
@@ -40,6 +41,7 @@ bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory*
         return false;
     }
 
+    CountUpTimer cut;
     Context c(ifs);
 
     ProgramNode* p = createProgramNode();
@@ -63,6 +65,7 @@ bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory*
     delete p;
 
     ScenarioResult* result = new ScenarioResult(path, name_, true);
+    result->setTime(cut.elapsed());
     collector->addResult(path, result);
 
     return true;

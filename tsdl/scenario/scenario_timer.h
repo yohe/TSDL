@@ -52,10 +52,10 @@ public:
     }
 
 protected:
-    bool pause_;
     // 設定時刻
     ptime setTime_;
     // 一時停止指定時間
+    bool pause_;
     ptime pauseTime_;
 };
 

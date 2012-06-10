@@ -41,7 +41,7 @@ void TextOutputter::end(ScenarioResult* result) {
     for(int i = 0; i < indentCount_; ++i) {
          indent += "  ";
     }
-    ofs_ << indent << "------------ TestGroup<" << result->fullpath_ << "> End" << std::endl;
+    ofs_ << indent << "------------ TestGroup<" << result->fullpath_ << "> End [Time=" << result->elapsedTime_ << "] -----------" << std::endl;
 }
 
 void TextOutputter::write(ScenarioResult* result) {
@@ -53,7 +53,7 @@ void TextOutputter::write(ScenarioResult* result) {
 
     ofs_ << indent << result->name_;
     if(result->success_) {
-        ofs_ << " : OK" << std::endl;
+        ofs_ << " : OK  time[" << result->elapsedTime_ << "]" << std::endl;
     } else {
         ofs_ << " : NG" << "  error[" << result->errorStr_ << "]" << std::endl;
     }

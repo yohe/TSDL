@@ -6,7 +6,7 @@ ptime Timer::now() const {
     return second_clock::local_time();
 }
 
-CountUpTimer::CountUpTimer() {
+CountUpTimer::CountUpTimer() : setTime_(), pause_(false), pauseTime_(){
 }
 
 void CountUpTimer::set() {
