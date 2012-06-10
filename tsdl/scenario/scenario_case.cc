@@ -1,7 +1,6 @@
 
 #include <fstream>
 
-#include "tsdl/scenario/scenario_entry.h"
 #include "tsdl/scenario/scenario_case.h"
 #include "tsdl/scenario/scenario_result.h"
 #include "tsdl/scenario/scenario_result_collector.h"
@@ -43,12 +42,12 @@ bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory*
 
     Context c(ifs);
 
-    ProgramNode p;
+    ProgramNode* p = createProgramNode();
     try {
-        p.parse(c);
-        p.setExecutorFactory(exeFactory);
-        p.setConditionCheckerFactory(condFactory);
-        p.execute();
+        p->parse(c);
+        p->setExecutorFactory(exeFactory);
+        p->setConditionCheckerFactory(condFactory);
+        p->execute();
     } catch (ParseException& e) {
         ScenarioResult* result = new ScenarioResult(path, name_, false, e.what());
         collector->addResult(path, result);
@@ -61,6 +60,7 @@ bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory*
         return false;
     }
     delete ifs;
+    delete p;
 
     ScenarioResult* result = new ScenarioResult(path, name_, true);
     collector->addResult(path, result);

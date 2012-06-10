@@ -190,7 +190,7 @@ bool ScenarioManager::addEntry(const std::string& path, ScenarioEntry::EntryType
     }
 
     if(type == ScenarioEntry::CASE) {
-        ScenarioEntry* entry = new ScenarioCase(scenarioFile, name, parent);
+        ScenarioEntry* entry = createScenarioCase(scenarioFile, name, parent);
         tree_.insert(parentPath, entry, error_);
     } else if(type == ScenarioEntry::GROUP) {
         ScenarioEntry* entry = new ScenarioGroup(name, parent);

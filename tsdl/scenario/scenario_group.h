@@ -4,10 +4,10 @@
 
 #include <string>
 #include <map>
+#include "tsdl/scenario/scenario_entry.h"
 
 class ExecutorFactory;
 class ConditionCheckerFactory;
-class ScenarioEntry;
 class ScenarioResultCollector;
 
 class ScenarioGroup : public ScenarioEntry {

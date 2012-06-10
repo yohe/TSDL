@@ -4,6 +4,33 @@
 #include "tsdl/scenario.h"
 #include "tsdl/outputter.h"
 
+class TestScenarioCase : public ScenarioCase {
+public:
+    TestScenarioCase(const std::string& scenario_file, const std::string& name, ScenarioEntry* parent = NULL) :
+        ScenarioCase(scenario_file, name, parent) {}
+
+    virtual ~TestScenarioCase() {}
+
+protected:
+    virtual ProgramNode* createProgramNode() const {
+        return new ProgramNode();
+    }
+
+};
+
+class TestScenarioManager : public ScenarioManager {
+public:
+    TestScenarioManager(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, const std::string& config = "") :
+        ScenarioManager(exeFactory, condFactory, config) {}
+
+protected:
+    virtual ScenarioCase* createScenarioCase(const std::string& scenario_file, const std::string& name, ScenarioEntry* parent = NULL) {
+        return new TestScenarioCase(scenario_file, name, parent);
+    }
+
+
+};
+
 int main(int argc, char const* argv[])
 {
     
@@ -16,14 +43,14 @@ int main(int argc, char const* argv[])
         assert( tree.insert("/", &tmp_3, error) == false );
         //std::cout << error << std::endl;
         assert( error == "test1 is already exist.");
-        assert( tree.insert("/", new ScenarioCase("aaaa.scn", "test2", NULL), error) );
-        ScenarioCase tmp_1("aaaa.scn", "test5", NULL);
+        assert( tree.insert("/", new TestScenarioCase("aaaa.scn", "test2", NULL), error) );
+        TestScenarioCase tmp_1("aaaa.scn", "test5", NULL);
         assert( tree.insert("/test2", &tmp_1, error) == false );
         //std::cout << error << std::endl;
         assert( error == "test2 isn't group.");
         assert( tree.insert("/test1", new ScenarioGroup("test3"), error) );
-        assert( tree.insert("/test1/test3/", new ScenarioCase("aaaa.scn", "test4", NULL ), error) );
-        ScenarioCase tmp_2("aaaa.scn", "test6", NULL );
+        assert( tree.insert("/test1/test3/", new TestScenarioCase("aaaa.scn", "test4", NULL ), error) );
+        TestScenarioCase tmp_2("aaaa.scn", "test6", NULL );
         assert( tree.insert("/test1/test3/test5/test6", &tmp_2, error) == false);
         //std::cout << error << std::endl;
         assert( error == "/test1/test3/test5/test6 isn't exist.");
@@ -48,7 +75,7 @@ int main(int argc, char const* argv[])
 
     std::cout  << "---------------ScenarioManager Test------------------" << std::endl;
     {
-        ScenarioManager manager(NULL, NULL, "./scenario.conf");
+        TestScenarioManager manager(NULL, NULL, "./scenario.conf");
 
         assert(manager.setup());
         assert(manager.getError() == "");
@@ -99,7 +126,7 @@ int main(int argc, char const* argv[])
     std::cout << "-----------------ScenarioResultCollector Test---------------------" << std::endl;
     {
         ScenarioGroup root("", NULL);
-        ScenarioCase* test1 = new ScenarioCase("aaaa.scn", "test1", &root);
+        ScenarioCase* test1 = new TestScenarioCase("aaaa.scn", "test1", &root);
         //std::cout << test1.fullpath() << std::endl;
         assert( test1->fullpath() == "/test1");
         //std::cout << root.fullpath() << std::endl;

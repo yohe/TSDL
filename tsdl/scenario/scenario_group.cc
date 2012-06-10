@@ -1,5 +1,4 @@
 
-#include "tsdl/scenario/scenario_entry.h"
 #include "tsdl/scenario/scenario_group.h"
 #include "tsdl/scenario/scenario_result.h"
 #include "tsdl/scenario/scenario_result_collector.h"

@@ -3,10 +3,11 @@
 #define TSDL_SCENARIO_SCENARIO_CASE_H
 
 #include <string>
+#include "tsdl/lang/program_node.h"
+#include "tsdl/scenario/scenario_entry.h"
 
 class ExecutorFactory;
 class ConditionCheckerFactory;
-class ScenarioEntry;
 class ScenarioResultCollector;
 
 class ScenarioCase : public ScenarioEntry {
@@ -25,6 +26,7 @@ public:
     virtual size_t size() const;
 
 protected:
+    virtual ProgramNode* createProgramNode() const = 0;
     virtual void getPath(std::string& path) const;
 
     std::string scenario_;

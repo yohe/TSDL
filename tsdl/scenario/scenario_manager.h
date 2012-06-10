@@ -4,6 +4,7 @@
 
 #include <string>
 #include "tsdl/scenario/scenario_entry.h"
+#include "tsdl/scenario/scenario_case.h"
 
 class ScenarioGroup;
 class FormatOutputter;
@@ -46,6 +47,8 @@ public:
     bool moveGroup(const std::string& oldPath, const std::string& newPath);
 
     void writeConfig(const std::string& config);
+protected:
+    virtual ScenarioCase* createScenarioCase(const std::string& scenario_file, const std::string& name, ScenarioEntry* parent = NULL) = 0;
 
 private:
     bool addEntry(const std::string&path, ScenarioEntry::EntryType type, const std::string& scenarioFile = "");
