@@ -7,5 +7,6 @@
 #include "tsdl/scenario/scenario_group.h"
 #include "tsdl/scenario/scenario_result.h"
 #include "tsdl/scenario/scenario_result_collector.h"
+#include "tsdl/scenario/scenario_timer.h"
 
 #endif /* end of include guard */

@@ -29,6 +29,7 @@ add_library(tsdl SHARED
     tsdl/scenario/scenario_manager.cc
     tsdl/scenario/scenario_result.cc
     tsdl/scenario/scenario_result_collector.cc
+    tsdl/scenario/scenario_timer.cc
     )
 
 
