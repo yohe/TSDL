@@ -143,6 +143,28 @@ int main(int argc, char const* argv[])
         collector.output(&outputter, 0, 0, 0);
     }
 
+
+    std::cout << "-----------------Timer Test---------------------" << std::endl;
+    {
+        using namespace boost::posix_time;
+        Timer t;
+        std::cout << t.now() << std::endl;
+
+        CountUpTimer cut;
+        cut.set();
+        sleep(1);
+        assert(cut.elapsed().total_seconds() == 1);
+        cut.set();
+        assert(cut.pause().total_milliseconds() == 0);
+        assert(cut.isPause());
+        sleep(1);
+        assert(cut.elapsed().total_seconds() == 0);
+        assert(cut.pause().total_seconds() == 1);
+        assert(cut.elapsed().total_seconds() == 0);
+        sleep(1);
+        assert(cut.elapsed().total_seconds() == 1);
+    }
+
     return 0;
 }
 
