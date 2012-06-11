@@ -22,5 +22,6 @@ void ScenarioResult::setTotal(size_t totalTests, size_t totalFailures, size_t to
 }
 
 void ScenarioResult::setTime(const boost::posix_time::time_duration& td) {
+    std::cout << td.total_nanoseconds() << std::endl;
     elapsedTime_ = boost::posix_time::to_simple_string(td);
 }

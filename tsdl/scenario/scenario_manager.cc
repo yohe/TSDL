@@ -161,8 +161,9 @@ void ScenarioManager::run(FormatOutputter* output, ScenarioResultCollector* coll
     size_t tests;
     size_t failures;
     size_t errors;
+    time_duration times;
     collector->setRoot((ScenarioGroup*)(tree_.root()));
-    tree_.root()->execute(exeFactory_, condFactory_, collector, tests, failures, errors);
+    tree_.root()->execute(exeFactory_, condFactory_, collector, tests, failures, errors, times);
     collector->output(output, tests, failures, errors);
 }
 const ScenarioTree& ScenarioManager::getScenarioTree() const {

@@ -3,6 +3,8 @@
 #define TSDL_SCENARIO_SCENARIO_ENTRY_H
 
 #include <string>
+#include <boost/date_time.hpp>
+using namespace boost::posix_time;
 
 class ExecutorFactory;
 class ConditionCheckerFactory;
@@ -24,7 +26,7 @@ public:
     virtual ScenarioEntry* find(const std::string& name) const = 0;
 
     virtual bool execute(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, ScenarioResultCollector* collector,
-                         size_t& totalTests, size_t& totalFailures, size_t& totalErrors) = 0;
+                         size_t& totalTests, size_t& totalFailures, size_t& totalErrors, time_duration& totalTime) = 0;
 
     virtual size_t size() const = 0;
     ScenarioEntry* parent() const;

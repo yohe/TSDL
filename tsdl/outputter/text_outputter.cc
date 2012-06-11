@@ -41,7 +41,7 @@ void TextOutputter::end(ScenarioResult* result) {
     for(int i = 0; i < indentCount_; ++i) {
          indent += "  ";
     }
-    ofs_ << indent << "------------ TestGroup<" << result->fullpath_ << "> End [Time=" << result->elapsedTime_ << "] -----------" << std::endl;
+    ofs_ << indent << "------------ TestGroup<" << result->fullpath_ << "> End TotalTime[" << result->elapsedTime_ << "] -----------" << std::endl;
 }
 
 void TextOutputter::write(ScenarioResult* result) {

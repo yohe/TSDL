@@ -20,7 +20,7 @@ void JUnitOutputter::start(ScenarioResult* result) {
         ofs_ << "<testsuites tests=\"" << result->tests_ << "\" failures=\""
              << result->failures_ << "\" errors=\"" << result->errors_
              << "\" name=\"" << result->fullpath_ 
-             << "\" time~\"" << result->elapsedTime_ << "\">" << std::endl;
+             << "\" time=\"" << result->elapsedTime_ << "\">" << std::endl;
     } else {
         std::string indent;
         for(int i = 0; i < indentCount_; ++i) {
@@ -28,7 +28,8 @@ void JUnitOutputter::start(ScenarioResult* result) {
         }
         ofs_ << indent << "<testsuite tests=\"" << result->tests_ << "\" failures=\""
              << result->failures_ << "\" errors=\"" << result->errors_
-             << "\" name=\"" << result->fullpath_ << "\">" << std::endl;
+             << "\" name=\"" << result->fullpath_
+             << "\" time=\"" << result->elapsedTime_ << "\">" << std::endl;
     }
 
     indentCount_++;

@@ -26,25 +26,28 @@ ScenarioEntry::EntryType ScenarioGroup::type() const {
 }
 
 bool ScenarioGroup::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, ScenarioResultCollector* collector,
-                           size_t& totalTests, size_t& totalFailures, size_t& totalErrors) {
+                           size_t& totalTests, size_t& totalFailures, size_t& totalErrors, time_duration& totalTimes) {
     size_t tests = 0;
     size_t failures = 0;
     size_t errors = 0;
+    time_duration times;
 
     bool success = true;
     for(iterator ite = begin(); ite != end(); ++ite) {
         success = (success & ite->second->execute(exeFactory, condFactory, collector,
-                                                  tests, failures, errors)
+                                                  tests, failures, errors, times)
                   );
     }
 
     totalTests += tests;
     totalFailures += failures;
     totalErrors += errors;
+    totalTimes += times;
 
     std::string path = fullpath();
     ScenarioResult* result = new ScenarioResult(path, name_, success);
     result->setTotal(totalTests, totalFailures, totalErrors);
+    result->setTime(totalTimes);
 
     collector->addResult(path, result);
     

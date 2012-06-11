@@ -3,7 +3,7 @@
 using namespace boost::posix_time;
 
 ptime Timer::now() const {
-    return second_clock::local_time();
+    return microsec_clock::local_time();
 }
 
 CountUpTimer::CountUpTimer() : setTime_(), pause_(false), pauseTime_(){

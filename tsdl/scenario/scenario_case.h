@@ -19,7 +19,7 @@ public:
     virtual EntryType type() const;
 
     virtual bool execute(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, ScenarioResultCollector* collector,
-                         size_t& totalTests, size_t& totalFailures, size_t& totalErrors);
+                         size_t& totalTests, size_t& totalFailures, size_t& totalErrors, time_duration& totalTimes);
 
     virtual ScenarioEntry* find(const std::string& name) const;
 

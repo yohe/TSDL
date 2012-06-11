@@ -25,7 +25,7 @@ ScenarioEntry::EntryType ScenarioCase::type() const {
 }
 
 bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, ScenarioResultCollector* collector,
-                           size_t& totalTests, size_t& totalFailures, size_t& totalErrors) {
+                           size_t& totalTests, size_t& totalFailures, size_t& totalErrors, time_duration& totalTimes) {
     totalTests++;
 
     std::string path = fullpath();
@@ -46,6 +46,7 @@ bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory*
 
     ProgramNode* p = createProgramNode();
     try {
+        cut.set();
         p->parse(c);
         p->setExecutorFactory(exeFactory);
         p->setConditionCheckerFactory(condFactory);
@@ -64,8 +65,11 @@ bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory*
     delete ifs;
     delete p;
 
+    time_duration td = cut.elapsed();
+    totalTimes += td;
+
     ScenarioResult* result = new ScenarioResult(path, name_, true);
-    result->setTime(cut.elapsed());
+    result->setTime(td);
     collector->addResult(path, result);
 
     return true;
