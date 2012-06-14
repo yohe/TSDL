@@ -258,7 +258,7 @@ int main(int argc, char const* argv[])
 
         const ScenarioTree& tree = manager.getScenarioTree();
 
-        assert( manager.addScenario("/test2", "aaaa.scn") );
+        assert( manager.addScenario("/test2", "aaaaa.scn") );
         assert( tree.find("/test2") != NULL);
         assert( manager.addGroup("/test1") );
         assert( manager.addScenario("/test1/test3", "aaaaa.scn") );
@@ -339,6 +339,7 @@ int main(int argc, char const* argv[])
         assert(cut.elapsed().total_seconds() == 0);
         sleep(1);
         assert(cut.elapsed().total_seconds() == 1);
+        std::cout << to_simple_string(cut.elapsed()) << std::endl;
     }
 
     return 0;
