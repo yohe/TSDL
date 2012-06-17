@@ -142,7 +142,7 @@ void PostConditionNode::parse(Context& context) throw ( ParseException )
         try {
             cond->parse(condSentence);
         } catch (ParseException& e) {
-            throw e;
+            throw;
         }
 
         _conditionList.push_back(cond);

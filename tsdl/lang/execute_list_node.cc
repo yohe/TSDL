@@ -103,7 +103,7 @@ void ExecuteListNode::parse(Context& context) throw ( ParseException )
             Sentence sentence = context.currentSentence();
             sentence.tokenize("", " :", "\"");
             if(sentence.currentToken() == getKey()) {
-                throw e;
+                throw;
                 assert(false);
             }
             break;

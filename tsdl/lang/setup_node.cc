@@ -61,7 +61,7 @@ void SetupNode::execute() throw ( ExecuteException )
     } catch (ExecuteException& e) {
         delete exe;
         delete ret;
-        throw e;
+        throw;
     }
 
     delete exe;

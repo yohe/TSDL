@@ -55,7 +55,7 @@ void ProgramNode::parse(Context& context) throw ( ParseException )
         _setupNode = NULL;
         _executeListNode = NULL;
         _teardownNode = NULL;
-        throw e;
+        throw;
     }
 
 }

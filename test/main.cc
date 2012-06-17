@@ -97,6 +97,7 @@ class FizzBuzzExecutor : public Executor {
                 std::cout << i << " ";
 
         }
+        sleep(1);
 
         std::cout << std::endl;
 
@@ -335,8 +336,8 @@ int main(int argc, char const* argv[])
         assert(cut.elapsed().total_seconds() == 0);
         assert(cut.pause().total_seconds() == 1);
         assert(cut.elapsed().total_seconds() == 0);
-        sleep(1);
-        assert(cut.elapsed().total_seconds() == 1);
+        sleep(10);
+        assert(cut.elapsed().total_seconds() == 10);
         std::cout << to_simple_string(cut.elapsed()) << std::endl;
     }
 
