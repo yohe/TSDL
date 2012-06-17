@@ -269,12 +269,10 @@ int main(int argc, char const* argv[])
         assert( manager.addGroup("/test1") == false );
 
         TextOutputter outputter("test.result");
-        XmlOutputter xml_outputter("test.result.xml");
         JUnitOutputter junit_outputter("test.result_junit.xml");
         ScenarioResultCollector collector;
         manager.run(&outputter, &collector);
 
-        collector.output(&xml_outputter, 0, 0, 0);
         collector.output(&junit_outputter, 0, 0, 0);
 
         assert( manager.delScenario("/test3") == false);

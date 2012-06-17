@@ -22,7 +22,6 @@ add_library(tsdl SHARED
     tsdl/outputter/format_outputter.cc
     tsdl/outputter/junit_outputter.cc
     tsdl/outputter/text_outputter.cc
-    tsdl/outputter/xml_outputter.cc
     tsdl/scenario/scenario_case.cc
     tsdl/scenario/scenario_entry.cc
     tsdl/scenario/scenario_group.cc
@@ -73,5 +72,4 @@ INSTALL(FILES
     tsdl/outputter/format_outputter.h
     tsdl/outputter/junit_outputter.h
     tsdl/outputter/text_outputter.h
-    tsdl/outputter/xml_outputter.h
     DESTINATION include/tsdl/outputter)
