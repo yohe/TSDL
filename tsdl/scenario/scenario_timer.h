@@ -73,7 +73,7 @@ public:
 
     /**
      * カウントダウンの時間のを指定します。
-     * @param Time 測る時間を設定(単位は秒) 例）10.5秒後であれば 10.5を指定
+     * @param Time 測る時間を設定(単位はmsec) 例）10.5秒後であれば 10500を指定
      */
     void set(long milisec);
 
@@ -85,9 +85,9 @@ public:
 
     /**
      * 指定時間を経過いないかを返します
-     * @return true 経過していない / false 経過している 
+     * @return false 経過していない / true 経過している 
      */
-    bool checkTimeOver(void) const;
+    bool isTimeOver(void) const;
 
     /**
      * カウントダウンを一時停止 or 再開します。
@@ -100,15 +100,15 @@ public:
      * @return true 停止状態 / false 動作状態
      */
     bool isPause(void) const {
-        return countUpTimer.isPause();
+        return countUpTimer_.isPause();
     }
 
-    ptime now() const { return countUpTimer.now(); }
+    ptime now() const { return countUpTimer_.now(); }
 
 protected:
     time_duration setTime_;
     ptime pauseTime_;
-    CountUpTimer countUpTimer;
+    CountUpTimer countUpTimer_;
 };
 
 #endif

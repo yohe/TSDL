@@ -308,12 +308,10 @@ int main(int argc, char const* argv[])
         assert( root.fullpath() == "/");
         root.add(test1);
         ScenarioResultCollector collector(&root);
-
         ScenarioResult* result = new ScenarioResult("/", "", true);
         ScenarioResult* result1 = new ScenarioResult("/test1", "test1", false, "ERROR");
         collector.addResult("/", result);
         collector.addResult("/test1", result1);
-        
         TextOutputter outputter("test2.result");
         collector.output(&outputter, 0, 0, 0);
     }
@@ -323,8 +321,9 @@ int main(int argc, char const* argv[])
     {
         using namespace boost::posix_time;
         Timer t;
-        std::cout << t.now() << std::endl;
+        std::cout << "t.now() toString -->" << t.now() << std::endl;
 
+        std::cout << "     ## CountUpTimer Test" << std::endl;
         CountUpTimer cut;
         cut.set();
         sleep(1);
@@ -336,9 +335,26 @@ int main(int argc, char const* argv[])
         assert(cut.elapsed().total_seconds() == 0);
         assert(cut.pause().total_seconds() == 1);
         assert(cut.elapsed().total_seconds() == 0);
-        sleep(10);
-        assert(cut.elapsed().total_seconds() == 10);
-        std::cout << to_simple_string(cut.elapsed()) << std::endl;
+        sleep(1);
+        assert(cut.elapsed().total_seconds() == 1);
+        std::cout << "cut.elapsed() toString --> " << to_simple_string(cut.elapsed()) << std::endl;
+
+
+        std::cout << "     ## CountDownTimer Test" << std::endl;
+        CountDownTimer cdt;
+        cdt.set(2000);
+        cdt.pause();
+        assert(cdt.remainingTime() <= 2000);
+        assert(cdt.isTimeOver() == false);
+        assert(cdt.isPause() == true);
+        cdt.pause();
+        assert(cdt.isPause() == false);
+        sleep(1);
+        assert(cdt.remainingTime() <= 1000);
+        assert(cdt.isTimeOver() == false);
+        sleep(1);
+        assert(cdt.remainingTime() == 0);
+        assert(cdt.isTimeOver() == true);
     }
 
     return 0;

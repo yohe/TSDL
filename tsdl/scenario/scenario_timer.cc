@@ -11,6 +11,9 @@ CountUpTimer::CountUpTimer() : setTime_(), pause_(false), pauseTime_(){
 
 void CountUpTimer::set() {
     setTime_ = now();
+//    if(isPause()) {
+//        pauseTime_ = setTime_;
+//    }
     pause_ = false;
 }
 
@@ -27,28 +30,34 @@ time_duration CountUpTimer::pause() {
         pauseTime_ = now();
     } else {
         elapsedPTime = now() - pauseTime_;
-        std::cout << elapsedPTime.total_seconds() << std::endl;
+        //std::cout << elapsedPTime.total_seconds() << std::endl;
         setTime_ += elapsedPTime;
     }
     pause_ = !pause_;
     return elapsedPTime;
 }
 
+CountDownTimer::CountDownTimer() 
+    : setTime_(), pauseTime_(), countUpTimer_() 
+{
+
+}
 void CountDownTimer::set(long milisec){
-    setTime_ = (countUpTimer.now().time_of_day() + milliseconds(milisec));
-    countUpTimer.set();
+    setTime_ = milliseconds(milisec);
+    countUpTimer_.set();
 }
 
 long CountDownTimer::remainingTime(void) const {
-    time_duration result = setTime_ - countUpTimer.elapsed();
+    //std::cout << countUpTimer_.elapsed() << std::endl;
+    time_duration result = setTime_ - countUpTimer_.elapsed();
     return (result.is_negative() ? 0 : result.total_milliseconds());
 }
 
-bool CountDownTimer::checkTimeOver(void) const {
-    return (remainingTime() > 0);
+bool CountDownTimer::isTimeOver(void) const {
+    return !(remainingTime() > 0);
 }
 
 time_duration CountDownTimer::pause(void){
-    return countUpTimer.pause();
+    return countUpTimer_.pause();
 }
 
