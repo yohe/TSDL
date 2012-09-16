@@ -48,7 +48,6 @@ void CountDownTimer::set(long milisec){
 }
 
 long CountDownTimer::remainingTime(void) const {
-    //std::cout << countUpTimer_.elapsed() << std::endl;
     time_duration result = setTime_ - countUpTimer_.elapsed();
     return (result.is_negative() ? 0 : result.total_milliseconds());
 }

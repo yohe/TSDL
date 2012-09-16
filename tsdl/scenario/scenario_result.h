@@ -20,13 +20,15 @@ public:
     virtual ~ScenarioResult();
 
     void setTotal(size_t totalTests, size_t totalFailures, size_t totalErrors);
-    void setTime(const time_duration& td);
+    void setTime(const ptime& pt);
+    void setElapsedTime(const time_duration& td);
 
     std::string fullpath_;
     std::string name_;
     bool success_;
     std::string errorStr_;
     std::string elapsedTime_;
+    ptime pt_;
 
     size_t tests_;
     size_t failures_;

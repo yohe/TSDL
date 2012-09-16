@@ -14,6 +14,7 @@ public:
     virtual void write(ScenarioResult* result);
 
 private:
+    int index_;
 };
 
 #endif /* end of include guard */

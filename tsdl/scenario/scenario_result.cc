@@ -24,7 +24,11 @@ void ScenarioResult::setTotal(size_t totalTests, size_t totalFailures, size_t to
     errors_= totalErrors;
 }
 
-void ScenarioResult::setTime(const boost::posix_time::time_duration& td) {
+void ScenarioResult::setTime(const boost::posix_time::ptime& pt) {
+    pt_ = pt;
+}
+
+void ScenarioResult::setElapsedTime(const boost::posix_time::time_duration& td) {
     std::stringstream ss;
     if(td.resolution() == boost::date_time::nano) {
         ss << td.total_seconds() << std::setw(9) << std::setfill('0') << td.fractional_seconds();

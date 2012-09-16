@@ -69,7 +69,9 @@ bool ScenarioCase::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory*
     totalTimes += td;
 
     ScenarioResult* result = new ScenarioResult(path, name_, true);
-    result->setTime(td);
+    Timer timer;
+    result->setTime(timer.now());
+    result->setElapsedTime(td);
     collector->addResult(path, result);
 
     return true;

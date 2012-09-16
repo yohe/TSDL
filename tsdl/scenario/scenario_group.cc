@@ -2,6 +2,7 @@
 #include "tsdl/scenario/scenario_group.h"
 #include "tsdl/scenario/scenario_result.h"
 #include "tsdl/scenario/scenario_result_collector.h"
+#include "tsdl/scenario/scenario_timer.h"
 
 #include "tsdl/lang/context.h"
 #include "tsdl/lang/program_node.h"
@@ -47,7 +48,10 @@ bool ScenarioGroup::execute(ExecutorFactory* exeFactory, ConditionCheckerFactory
     std::string path = fullpath();
     ScenarioResult* result = new ScenarioResult(path, name_, success);
     result->setTotal(totalTests, totalFailures, totalErrors);
-    result->setTime(totalTimes);
+
+    Timer timer;
+    result->setTime(timer.now());
+    result->setElapsedTime(totalTimes);
 
     collector->addResult(path, result);
     
