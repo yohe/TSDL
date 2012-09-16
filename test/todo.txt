@@ -1,3 +1,0 @@
-1. ScenarioManager::setup implement;
-2. ScenarioManager::writeConfig implement;
-

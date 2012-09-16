@@ -259,13 +259,14 @@ int main(int argc, char const* argv[])
 
         const ScenarioTree& tree = manager.getScenarioTree();
 
-        assert( manager.addScenario("/test2", "test.scn") );
+        assert( manager.addGroup("/test2") );
         assert( tree.find("/test2") != NULL);
         assert( manager.addGroup("/test1") );
         assert( manager.addScenario("/test1/test3", "test.scn") );
         assert( manager.addScenario("/test1/test4", "test.scn") );
         assert( tree.find("/test1/test3") != NULL);
 
+        assert( manager.addScenario("/test2/test5", "test.scn") );
         assert( manager.addScenario("/test2", "aaaa.scn") == false );
         assert( manager.addGroup("/test1") == false );
 
@@ -277,7 +278,8 @@ int main(int argc, char const* argv[])
         collector.output(&junit_outputter, 0, 0, 0);
 
         assert( manager.delScenario("/test3") == false);
-        assert( manager.delScenario("/test2") );
+        assert( manager.delScenario("/test2/test5") );
+        assert( manager.delGroup("/test2") );
 
         assert( manager.delGroup("/test1") == false);
         assert( manager.delScenario("/test1/test3") );
