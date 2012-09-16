@@ -32,7 +32,7 @@ add_library(tsdl SHARED
     )
 
 
-#set_target_properties(tsdl LINK_FLAGS -lboost_system)
+set_target_properties(tsdl PROPERTIES LINK_FLAGS -lboost_date_time)
 
 #set_target_properties(tsdl PROPERTIES COMPILE_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
