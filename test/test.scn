@@ -1,0 +1,4 @@
+init null
+setup null : cond null
+execute FizzBuzz 1-9 : cond null
+teardown null : cond null
