@@ -259,11 +259,11 @@ int main(int argc, char const* argv[])
 
         const ScenarioTree& tree = manager.getScenarioTree();
 
-        assert( manager.addScenario("/test2", "aaaaa.scn") );
+        assert( manager.addScenario("/test2", "test.scn") );
         assert( tree.find("/test2") != NULL);
         assert( manager.addGroup("/test1") );
-        assert( manager.addScenario("/test1/test3", "aaaaa.scn") );
-        assert( manager.addScenario("/test1/test4", "aaaaa.scn") );
+        assert( manager.addScenario("/test1/test3", "test.scn") );
+        assert( manager.addScenario("/test1/test4", "test.scn") );
         assert( tree.find("/test1/test3") != NULL);
 
         assert( manager.addScenario("/test2", "aaaa.scn") == false );
@@ -285,8 +285,8 @@ int main(int argc, char const* argv[])
         assert( manager.delGroup("/test1", true) );
 
         assert( manager.addGroup("/test1") );
-        assert( manager.addScenario("/test1/test3", "aaaaa.scn") );
-        assert( manager.addScenario("/test1/test4", "aaaaa.scn") );
+        assert( manager.addScenario("/test1/test3", "test.scn") );
+        assert( manager.addScenario("/test1/test4", "test.scn") );
         assert( manager.addGroup("/test2") );
         assert( manager.moveScenario("/test1/test3", "/test2/test3") );
         assert( tree.find("/test2/test3") != NULL);
@@ -338,7 +338,6 @@ int main(int argc, char const* argv[])
         sleep(1);
         assert(cut.elapsed().total_seconds() == 1);
         std::cout << "cut.elapsed() toString --> " << to_simple_string(cut.elapsed()) << std::endl;
-
 
         std::cout << "     ## CountDownTimer Test" << std::endl;
         CountDownTimer cdt;
