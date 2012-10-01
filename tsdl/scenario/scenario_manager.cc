@@ -22,7 +22,7 @@ ScenarioEntry* ScenarioTree::root() const {
     return root_;
 }
 
-ScenarioEntry* ScenarioTree::find(const std::string path) const {
+ScenarioEntry* ScenarioTree::find(const std::string& path) const {
 
     boost::char_separator<char> sep("/");
     boost::tokenizer<boost::char_separator<char> > tokens(path, sep);
@@ -152,7 +152,7 @@ bool ScenarioManager::setup() {
 
     return true;
 }
-std::string ScenarioManager::getError() {
+std::string ScenarioManager::getError() const {
 
     return error_;
 }

@@ -10,7 +10,8 @@ ScenarioResult::ScenarioResult(const std::string& fullpath,
                                const std::string& name,
                                bool success,
                                const std::string& errorStr)
-    : fullpath_(fullpath), name_(name), success_(success), errorStr_(errorStr), elapsedTime_("")
+    : fullpath_(fullpath), name_(name), success_(success), errorStr_(errorStr), elapsedTime_(""),
+      tests_(), failures_(), errors_()
 {
 
 }

@@ -2,12 +2,12 @@
 #include "tsdl/lang/context.h"
 #include "tsdl/lang/parse_exception.h"
 
-Context::Context(std::ifstream* is) : _useFile(true), _is(is), _currentSentence("")
+Context::Context(std::ifstream* is) : _useFile(true), _is(is), _currentSentence(""), _lineNumber(0)
 {
     nextSentence();
 }
 
-Context::Context() : _useFile(false), _is(NULL), _currentSentence("")
+Context::Context() : _useFile(false), _is(NULL), _currentSentence(""), _lineNumber(0)
 {
     assert(false);
 }
@@ -34,7 +34,7 @@ void Context::skipSentence(const std::string& nodeName) throw(ParseException) {
     nextSentence();
 }
 
-Sentence::Sentence(const std::string& sentence) : _sentence(sentence), _tokens(NULL)
+Sentence::Sentence(const std::string& sentence) : _sentence(sentence), _sep(), _tokens(NULL), _current()
 {
 }
 
@@ -61,12 +61,17 @@ Sentence Context::currentSentence() {
     return Sentence(_currentSentence);
 }
 void Sentence::tokenize(const char* escape, const char* separator, const char* quoteChar) {
+
+    boost::escaped_list_separator<char> sep(escape, separator, quoteChar);
+    tokenize(_sep);
+}
+void Sentence::tokenize(const boost::escaped_list_separator<char>& sep) {
     if(_tokens != NULL) {
         delete _tokens;
         _tokens = NULL;
     }
 
-    boost::escaped_list_separator<char> sep(escape, separator, quoteChar);
+    _sep = sep;
     _tokens = new boost::tokenizer<escaped_list_separator<char> >(_sentence, sep);
     _current = _tokens->begin();
 }
@@ -103,7 +108,7 @@ bool Sentence::hasNextToken() const {
 
 Sentence& Sentence::operator=(const Sentence& rhs) {
     _sentence = rhs._sentence;
-    _tokens = NULL;
+    tokenize(rhs._sep);
 
     return *this;
 }

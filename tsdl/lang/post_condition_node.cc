@@ -8,7 +8,7 @@
 #include "tsdl/lang/post_condition_node.h"
 #include "tsdl/lang/condition_checker.h"
 
-ConditionNode::ConditionNode(ProgramNode* node) : Node(), _programNode(node)
+ConditionNode::ConditionNode(ProgramNode* node) : Node(), _programNode(node), _conditionCommand(), _inputParam(), _result(NULL)
 {
 
 }
@@ -92,7 +92,7 @@ void ConditionNode::setResult(Result* result) {
     _result = result;
 }
 
-PostConditionNode::PostConditionNode(ProgramNode* node) : Node(), _programNode(node)
+PostConditionNode::PostConditionNode(ProgramNode* node) : Node(), _programNode(node), _result(NULL)
 {
 
 }

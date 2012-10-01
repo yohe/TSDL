@@ -18,7 +18,7 @@ public:
     ScenarioTree();
     ~ScenarioTree();
 
-    ScenarioEntry* find(const std::string path) const;
+    ScenarioEntry* find(const std::string& path) const;
     bool insert(const std::string& path, ScenarioEntry* entry, std::string& error);
     bool erase(const std::string& path, bool force, std::string& error);
 
@@ -33,7 +33,7 @@ public:
     ~ScenarioManager();
 
     bool setup();
-    std::string getError();
+    std::string getError() const;
 
     void run(FormatOutputter* outputter, ScenarioResultCollector* collector);
     const ScenarioTree& getScenarioTree() const;

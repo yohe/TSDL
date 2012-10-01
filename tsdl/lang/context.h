@@ -17,6 +17,7 @@ public:
     ~Sentence();
 
     void tokenize(const char* escapce, const char* separator, const char* quoteChar);
+    void tokenize(const boost::escaped_list_separator<char>& sep);
 
     bool hasNextToken() const;
     std::string nextToken();
@@ -30,6 +31,7 @@ public:
 
 private:
     std::string _sentence;
+    boost::escaped_list_separator<char> _sep;
     tokenizer<escaped_list_separator<char> >* _tokens;
     iterator _current;
 

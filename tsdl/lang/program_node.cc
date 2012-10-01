@@ -16,6 +16,9 @@ ProgramNode::ProgramNode() : Node()
     _setupNode = NULL;
     _executeListNode = NULL;
     _teardownNode = NULL;
+    _executeListNode = NULL;
+    _executorFactory = NULL;
+    _conditionCheckerFactory = NULL;
 }
 
 ProgramNode::~ProgramNode()
