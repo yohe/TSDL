@@ -63,7 +63,7 @@ Sentence Context::currentSentence() {
 void Sentence::tokenize(const char* escape, const char* separator, const char* quoteChar) {
 
     boost::escaped_list_separator<char> sep(escape, separator, quoteChar);
-    tokenize(_sep);
+    tokenize(sep);
 }
 void Sentence::tokenize(const boost::escaped_list_separator<char>& sep) {
     if(_tokens != NULL) {

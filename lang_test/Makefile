@@ -1,10 +1,10 @@
 
 BOOST_INCLUDE = /opt/local/include
 BOOST_LIB = /opt/local/lib
-TSDL_LIB = ../lib
+TSDL_LIB = .
 
 all: test echo_test server client
-	cp ../lib/libtsdl.dylib ./
+	cp ../libtsdl.dylib ./
 
 test: test.cc $(ALL_SOURCE)
 	g++ -o test -g -ggdb test.cc $(ALL_SOURCE) -I ../ -I $(BOOST_INCLUDE) -L $(TSDL_LIB) -ltsdl
