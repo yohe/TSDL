@@ -80,11 +80,10 @@ void JUnitOutputter::write(ScenarioResult* result) {
     }
 
     std::string::size_type pos = result->fullpath_.rfind(result->name_);
-    std::string className = result->fullpath_.substr(0, pos);
 
     ofs_ << indent
          << "<testcase name=\"" << result->name_ 
-         << "\" classname=\"" << className 
+         << "\" classname=\"" << result->fullpath_
          << "\" time=\"" << result->elapsedTime_ << "\">" << std::endl;
 
     if(!result->success_) {

@@ -28,8 +28,8 @@ ScenarioEntry* ScenarioTree::find(const std::string& path) const {
     boost::tokenizer<boost::char_separator<char> > tokens(path, sep);
 
     ScenarioEntry* entry = root_;
-    typedef boost::tokenizer<boost::char_separator<char> >::iterator Iterator;
-    for(Iterator ite = tokens.begin(); ite != tokens.end(); ite++) {
+    boost::tokenizer<boost::char_separator<char> >::iterator ite;
+    for(ite = tokens.begin(); ite != tokens.end(); ite++) {
         ScenarioEntry* find = entry->find(*ite);
 
         if(find == NULL) {
@@ -172,19 +172,24 @@ const ScenarioTree& ScenarioManager::getScenarioTree() const {
 }
 
 bool ScenarioManager::addEntry(const std::string& path, ScenarioEntry::EntryType type, const std::string& scenarioFile) {
+
+    // to check exist entry in path.
     if(tree_.find(path) != NULL) {
         error_ = "[" + path +  "] is alreay exist.";
         return false;
     }
 
+    // divide path at parent and name.
     std::string parentPath = path.substr(0, path.find_last_of('/')+1);
     std::string name = path.substr(parentPath.size());
 
+    // to check exist parent.
     ScenarioEntry* parent = tree_.find(parentPath);
     if(parent == NULL) {
         error_ = "Parent[" + parentPath + "] doesn't exist yet.";
         return false;
     }
+
     if(parent->type() != ScenarioEntry::GROUP) {
         error_ = "[" + parentPath + "] isn't ScenarioGroup.";
         return false;
@@ -245,8 +250,7 @@ bool ScenarioManager::moveEntry(const std::string& oldPath, const std::string& n
         error_ = "[" + newParentPath + "] isn't group.";
         return false;
     }
-
-
+    
     ScenarioEntry* entry = tree_.find(oldPath);
     ScenarioGroup* parent = dynamic_cast<ScenarioGroup*>(entry->parent());
 
