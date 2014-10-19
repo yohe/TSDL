@@ -19,6 +19,7 @@ add_library(tsdl SHARED
     tsdl/lang/program_node.cc 
     tsdl/lang/setup_node.cc 
     tsdl/lang/teardown_node.cc
+    tsdl/lang/for_node.cc
     tsdl/outputter/format_outputter.cc
     tsdl/outputter/junit_outputter.cc
     tsdl/outputter/text_outputter.cc
@@ -32,7 +33,7 @@ add_library(tsdl SHARED
     )
 
 
-set_target_properties(tsdl PROPERTIES LINK_FLAGS -lboost_date_time)
+set_target_properties(tsdl PROPERTIES LINK_FLAGS -lboost_date_time-mt)
 
 #set_target_properties(tsdl PROPERTIES COMPILE_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")

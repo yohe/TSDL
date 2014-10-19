@@ -4,6 +4,7 @@
 #include "tsdl/lang/execute_list_node.h"
 #include "tsdl/lang/program_node.h"
 #include "tsdl/lang/post_condition_node.h"
+#include "tsdl/lang/for_node.h"
 
 
 ExecuteNode::ExecuteNode(ProgramNode* node) : Node(), _programNode(node), _postCondition(NULL)
@@ -57,7 +58,8 @@ void ExecuteNode::execute() throw ( ExecuteException )
     Executor* exe = _programNode->createExecutor(_executeCommand);
     Result* ret = NULL;
     try {
-        ret = exe->execute(_inputParam);
+        std::string param = _programNode->variableToValue(_inputParam);
+        ret = exe->execute(param);
         _postCondition->setResult(ret);
         _postCondition->execute();
     } catch (ExecuteException& e) {
@@ -95,17 +97,18 @@ std::string ExecuteListNode::getKey() const {
 void ExecuteListNode::parse(Context& context) throw ( ParseException )
 {
     while(true) {
-        ExecuteNode* node = new ExecuteNode(_programNode);
+        Sentence sentence = context.currentSentence();
+        sentence.tokenize("", " ", "\"");
+
+        Node* node = getNodeOfToken(sentence.currentToken());
+        if(node == NULL) {
+            break;
+        }
         try {
             node->parse(context);
         } catch (ParseException& e) {
             delete node;
-            Sentence sentence = context.currentSentence();
-            sentence.tokenize("", " :", "\"");
-            if(sentence.currentToken() == getKey()) {
-                throw;
-            }
-            break;
+            throw;
         }
 
         _executeList.push_back(node);
@@ -120,4 +123,14 @@ void ExecuteListNode::execute() throw ( ExecuteException )
         (*ite)->execute();
     }
 
+}
+
+Node* ExecuteListNode::getNodeOfToken(std::string token) {
+    if(token == "for") {
+        return new ForNode(_programNode);
+    } else if( token == "execute") {
+        //ExecuteNode* node = new ExecuteNode(_programNode);
+        return new ExecuteNode(_programNode);
+    }
+    return NULL;
 }

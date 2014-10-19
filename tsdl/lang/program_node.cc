@@ -68,6 +68,7 @@ void ProgramNode::execute() throw ( ExecuteException )
     try {
         _initNode->execute();
         _setupNode->execute();
+        clearVariable();
         _executeListNode->execute();
     } catch (ExecuteException& e) {
         std::cout << e.what() << std::endl;
@@ -95,3 +96,29 @@ ConditionChecker* ProgramNode::createConditionChecker(std::string name)
     return _conditionCheckerFactory->create(name);
 }
 
+bool ProgramNode::setVariable(std::string name, std::string value) {
+    if(_variables.count(name) == 1) {
+        return false;
+    }
+    _variables.insert(std::make_pair(name, value));
+    return true;
+}
+void ProgramNode::unsetVariable(std::string name) {
+    if(_variables.count(name) == 0) {
+        return ;
+    }
+    _variables.erase(name);
+}
+
+std::string ProgramNode::variableToValue(std::string input) {
+    std::map<std::string, std::string>::iterator it = _variables.begin();
+    for(; it != _variables.end(); it++) {
+        std::string str = "$" + it->first;
+        size_t pos = input.find(str);
+        if(pos == std::string::npos) {
+            continue;
+        }
+        input.replace(pos, str.size(), it->second);
+    }
+    return input;
+}

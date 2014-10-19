@@ -1,6 +1,7 @@
 
 #include "tsdl/lang/context.h"
 #include "tsdl/lang/parse_exception.h"
+#include <boost/algorithm/string.hpp>
 
 Context::Context(std::ifstream* is) : _useFile(true), _is(is), _currentSentence(""), _lineNumber(0)
 {
@@ -48,6 +49,7 @@ Sentence Context::nextSentence() {
     while(_currentSentence.empty() && hasNextSentence()) {
         std::string line;
         std::getline(*_is, line);
+        boost::trim(line);
         if(line.empty() || line.at(0) == '#') {
             continue;
         }
@@ -70,7 +72,7 @@ void Sentence::tokenize(const boost::escaped_list_separator<char>& sep) {
         delete _tokens;
         _tokens = NULL;
     }
-
+    
     _sep = sep;
     _tokens = new boost::tokenizer<escaped_list_separator<char> >(_sentence, sep);
     _current = _tokens->begin();

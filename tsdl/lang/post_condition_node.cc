@@ -70,7 +70,8 @@ void ConditionNode::execute() throw ( ExecuteException )
     }
 
     try {
-        bool ret = checker->check(_result, _inputParam);
+        std::string param = _programNode->variableToValue(_inputParam);
+        bool ret = checker->check(_result, param);
         if(ret == false) { 
             std::string mes = "condition pass error. ConditionName = " + _conditionCommand + " : condition param = " + _inputParam;
             mes += "  Error[" + checker->getError() + "]";

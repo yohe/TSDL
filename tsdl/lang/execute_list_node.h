@@ -40,8 +40,11 @@ public:
     virtual void parse(Context& context) throw ( ParseException );
     virtual void execute() throw ( ExecuteException ) ;
 
+    Node* getNodeOfToken(std::string token);
+
 private:
-    typedef std::list<ExecuteNode*> ExecuteNodeList;
+
+    typedef std::list<Node*> ExecuteNodeList;
     ExecuteNodeList _executeList;
     ProgramNode* _programNode;
 

@@ -3,6 +3,7 @@
 #define TSDL_LANG_PROGRAM_NODE_H
 
 #include <string>
+#include <map>
 #include "tsdl/lang/node.h"
 
 class ExecutorFactory;
@@ -29,6 +30,14 @@ public:
 
     void setConditionCheckerFactory(ConditionCheckerFactory* factory);
     ConditionChecker* createConditionChecker(std::string name);
+
+    bool setVariable(std::string name, std::string value);
+    void unsetVariable(std::string name);
+    void clearVariable() {
+        _variables.clear();
+    }
+
+    std::string variableToValue(std::string input);
 protected:
     InitNode* _initNode;
     SetupNode* _setupNode;
@@ -36,6 +45,8 @@ protected:
     ExecuteListNode* _executeListNode;
     ExecutorFactory* _executorFactory;
     ConditionCheckerFactory* _conditionCheckerFactory;
+
+    std::map<std::string, std::string> _variables;
 };
 
 #endif /* end of include guard */
