@@ -5,6 +5,13 @@
 #include "tsdl/scenario.h"
 #include "tsdl/outputter.h"
 
+class TestConfigLoader {
+public:
+    bool load(std::string file, ScenarioTree& tree) {
+        return true;
+    }
+};
+
 class TestScenarioCase : public ScenarioCase {
 public:
     TestScenarioCase(const std::string& scenario_file, const std::string& name, ScenarioEntry* parent = NULL) :
@@ -254,7 +261,7 @@ int main(int argc, char const* argv[])
     {
         TestScenarioManager manager(new TestExecuteFactory(), new TestConditionCheckerFactory(), "./scenario.conf");
 
-        assert(manager.setup());
+        assert(manager.setup<TestConfigLoader>());
         assert(manager.getError() == "");
 
         const ScenarioTree& tree = manager.getScenarioTree();

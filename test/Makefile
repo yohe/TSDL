@@ -10,7 +10,7 @@ all: test
 
 test: $(TSDL_LIB)/libtsdl.dylib main.cc 
 	cp $(TSDL_LIB)/libtsdl.dylib ./
-	$(CC) -g -O0 main.cc -o test -I ../ -I /opt/local/include -I $(BOOST_INCLUDE) -L $(BOOST_LIB) -lboost_system -L $(TSDL_LIB) -ltsdl
+	$(CC) -g -O0 main.cc -o test -I ../ -I /opt/local/include -I $(BOOST_INCLUDE) -L $(BOOST_LIB) -lboost_system-mt -L $(TSDL_LIB) -ltsdl
 
 clean:
 	rm test

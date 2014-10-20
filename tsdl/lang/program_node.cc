@@ -113,7 +113,7 @@ void ProgramNode::unsetVariable(std::string name) {
 std::string ProgramNode::variableToValue(std::string input) {
     std::map<std::string, std::string>::iterator it = _variables.begin();
     for(; it != _variables.end(); it++) {
-        std::string str = "$" + it->first;
+        std::string str = it->first;
         size_t pos = input.find(str);
         if(pos == std::string::npos) {
             continue;

@@ -3,11 +3,16 @@
 
 <init> ::= init <input>
 <setup> ::= setup <input> : <post condition>
-<execute list> ::= <execute>*
+<execute list> ::= <for><execute list><forend> | <execute> <execute list>
+<for> ::= for <variable> in <param list>
+<variable> ::= <string>
+<param list> ::= <string> | <string>,<param list>
+<forend> ::= forend
 <execute> ::= execute <execute_command> <input> : <post condition>
 <teardown> ::= teardown <input> : <post condition>
 
-<input> ::= <string>
+<input> ::= <string> | <string><ref_variable><input>
+<ref_variable> ::= $<variable>
 
 <post condition> ::= <condition> | <condition> and <post condition>
 <condition> ::= cond <condition_command> <input>

@@ -24,6 +24,11 @@ void ForNode::parse(Context& context) throw ( ParseException ) {
         throw ParseException(mes);
     }
     _variableName = sentence.nextToken();
+    if(_variableName.length() == 0 ||
+       _variableName[0] != '$' ) {
+        std::string mes = "VariableName Error : VariableName is \"$ + name\". ex) $var"; 
+        throw ParseException(mes);
+    }
     if(!_programNode->setVariable(_variableName, "")) {
         std::string mes = "Variable Error : redefinition of " + _variableName;
         throw ParseException(mes);

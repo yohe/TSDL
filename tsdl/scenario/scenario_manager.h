@@ -32,6 +32,7 @@ public:
     ScenarioManager(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, const std::string& config = "");
     ~ScenarioManager();
 
+    template <class ConfigLoader>
     bool setup();
     std::string getError() const;
 
@@ -59,6 +60,13 @@ private:
     ScenarioTree tree_;
     ExecutorFactory* exeFactory_;
     ConditionCheckerFactory* condFactory_;
+    std::string configFile_;
 };
+
+template <class ConfigLoader>
+bool ScenarioManager::setup() {
+    ConfigLoader loader;
+    return loader.load(configFile_, tree_);
+}
 #endif /* end of include guard */
 

@@ -1,11 +1,13 @@
 init null
 setup null : cond null
 
-execute Echo TEST_1 : cond EchoCheck TEST_1
+for $val in TEST_1,"TEST_2","TEST_3 abc"
+    execute Echo $val : cond EchoCheck $val
+forend
 
-execute Echo "TEST_2": cond EchoCheck "TEST_2"
-
-execute Echo "TEST_3 abc" : cond EchoCheck "TEST_3 abc"
+execute Echo TEST_1 : cond EchoCheck $valTEST_1
+#execute Echo "TEST_2": cond EchoCheck "TEST_2"
+#execute Echo "TEST_3 abc" : cond EchoCheck "TEST_3 abc"
 
 teardown null : cond null
 

@@ -139,7 +139,8 @@ bool ScenarioTree::erase(const std::string& path, bool force, std::string& error
 
 ScenarioManager::ScenarioManager(ExecutorFactory* exeFactory, ConditionCheckerFactory* condFactory, const std::string& config) :
     exeFactory_(exeFactory),
-    condFactory_(condFactory)
+    condFactory_(condFactory),
+    configFile_(config)
 {
 }
 
@@ -148,10 +149,6 @@ ScenarioManager::~ScenarioManager() {
     delete condFactory_;
 }
 
-bool ScenarioManager::setup() {
-
-    return true;
-}
 std::string ScenarioManager::getError() const {
 
     return error_;
